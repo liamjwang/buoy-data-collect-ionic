@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Bluetooth Pairing
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <button ion-button block>Refresh</button>
+  <ion-list id="pairingList" no-border>
+
+    <ion-list-header>
+      Devices
+    </ion-list-header>
+
+    <ion-item (click)="pair()">
+      <ion-icon name='help-buoy' item-start></ion-icon>
+      <div class="buoyTitle">Buoy 1 Name</div>
+      <ion-icon name='arrow-forward' item-end color="medium"></ion-icon>
+    </ion-item>
+    <ion-item (click)="pair()">
+      <ion-icon name='help-buoy' item-start></ion-icon>
+      <div class="buoyTitle">Buoy 2 Name</div>
+      <!--<ion-note item-end>-->
+        <!--Buoy 1 Description-->
+      <!--</ion-note>-->
+      <ion-icon name='arrow-forward' item-end color="medium"></ion-icon>
+    </ion-item>
+    <ion-item (click)="pair()">
+      <ion-icon name='help-buoy' item-start></ion-icon>
+      <div class="buoyTitle">Buoy 3 Name</div>
+      <ion-icon name='arrow-forward' item-end color="medium"></ion-icon>
+    </ion-item>
+    <ion-item (click)="pair()">
+      <ion-icon name='help-buoy' item-start></ion-icon>
+      <div class="buoyTitle">Buoy 4 Name</div>
+      <ion-icon name='arrow-forward' item-end color="medium"></ion-icon>
+    </ion-item>
+
+  </ion-list>
+
+
+</ion-content>
