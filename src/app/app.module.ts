@@ -1,9 +1,11 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { GaugeModule } from 'angular-gauge';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
 import { SamplePage } from '../pages/sample/sample';
+import { PairingPage } from '../pages/pairing/pairing';
 import { AnalysisPage } from '../pages/analysis/analysis';
 import { DataPage } from '../pages/data/data';
 import { UploadPage } from '../pages/upload/upload';
@@ -19,10 +21,12 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     AnalysisPage,
     DataPage,
     UploadPage,
+    PairingPage,
     TabsPage
   ],
   imports: [
     BrowserModule,
+    GaugeModule.forRoot(),
     IonicModule.forRoot(MyApp)
   ],
   bootstrap: [IonicApp],
@@ -32,6 +36,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
     AnalysisPage,
     DataPage,
     UploadPage,
+    PairingPage,
     TabsPage
   ],
   providers: [
