@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { SamplePage } from '../sample/sample';
+import { PairingPage } from '../pairing/pairing';
 import { AnalysisPage } from '../analysis/analysis';
 import { DataPage } from '../data/data';
 import { UploadPage } from '../upload/upload';
@@ -10,7 +10,7 @@ import { UploadPage } from '../upload/upload';
 })
 export class TabsPage {
 
-  tab1Root = SamplePage;
+  tab1Root = PairingPage;
   tab2Root = DataPage;
   tab3Root = AnalysisPage;
   tab4Root = UploadPage;
