@@ -6,6 +6,36 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
+  <div padding>
+    <button ion-button block large round>
+      <ion-icon name='cloud-upload' item-start padding-right="10px" style="font-size: 2em"></ion-icon>
+      <b>Upload All New Samples</b>
+    </button>
+  </div>
+  <ion-list id="uploadList" no-border>
+
+    <ion-list-header>
+      New Samples
+    </ion-list-header>
+
+    <ion-item (click)="pair()">
+      Datapoint 1
+      <ion-icon name='arrow-forward' item-end color="medium"></ion-icon>
+    </ion-item>
+    <ion-item (click)="pair()">
+      Datapoint 2
+      <ion-icon name='arrow-forward' item-end color="medium"></ion-icon>
+    </ion-item>
+    <ion-item (click)="pair()">
+      Datapoint 3
+      <ion-icon name='arrow-forward' item-end color="medium"></ion-icon>
+    </ion-item>
+    <ion-item (click)="pair()">
+      Datapoint 4
+      <ion-icon name='arrow-forward' item-end color="medium"></ion-icon>
+    </ion-item>
+
+  </ion-list>
 
 </ion-content>
