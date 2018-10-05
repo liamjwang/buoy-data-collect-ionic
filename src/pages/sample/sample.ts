@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
+
 @Component({
   selector: 'page-sample',
   templateUrl: 'sample.html'
@@ -12,5 +13,7 @@ export class SamplePage {
   }
 
   items: ["<ion-item>Angola</ion-item>","so","cool"];
+
+
 
 }
