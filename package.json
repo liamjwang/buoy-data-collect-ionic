@@ -1,8 +1,8 @@
 {
   "name": "buoy-data-collect-ionic",
   "version": "0.0.1",
-  "author": "Ionic Framework",
-  "homepage": "http://ionicframework.com/",
+  "author": "Liam Wang",
+  "homepage": "https://github.com/liamjwang/buoy-data-collect-ionic",
   "private": true,
   "scripts": {
     "start": "ionic-app-scripts serve",
@@ -36,5 +36,5 @@
     "@ionic/app-scripts": "3.2.0",
     "typescript": "~2.6.2"
   },
-  "description": "An Ionic project"
+  "description": "Data collection app for the WaterWand smart buoy"
 }
