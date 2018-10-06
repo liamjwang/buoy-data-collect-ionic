@@ -8,70 +8,36 @@
 
 <ion-content>
   <ion-grid id="sampleData">
-    <!--<ion-row>-->
-    <!--<ion-col>-->
-    <!--<ion-card>-->
-    <!--<ion-card-header>Turbidity</ion-card-header>-->
-    <!--<ion-card-content>-->
-    <!--<mwl-gauge-->
-    <!--class="two"-->
-    <!--[max]="100"-->
-    <!--[dialStartAngle]="180"-->
-    <!--[dialEndAngle]="0"-->
-    <!--[value]="4"-->
-    <!--[animated]="true"-->
-    <!--[animationDuration]="2">-->
-    <!--</mwl-gauge>-->
-    <!--</ion-card-content>-->
-    <!--</ion-card>-->
-    <!--</ion-col>-->
-    <!--<ion-col>-->
-    <!--<ion-card>-->
-    <!--<ion-card-header>PH</ion-card-header>-->
-    <!--<ion-card-content>-->
-    <!--<mwl-gauge-->
-    <!--class="two"-->
-    <!--[max]="100"-->
-    <!--[dialStartAngle]="180"-->
-    <!--[dialEndAngle]="0"-->
-    <!--[value]="4"-->
-    <!--[animated]="true"-->
-    <!--[animationDuration]="2">-->
-    <!--</mwl-gauge>-->
-    <!--</ion-card-content>-->
-    <!--</ion-card>-->
-    <!--</ion-col>-->
-    <!--</ion-row>-->
     <ion-row>
-    <ion-col>
-      <ion-card>
-        <ion-card-header>
-          <ion-icon name='logo-bitcoin' item-start></ion-icon>
-          Salinity
-        </ion-card-header>
-        <ion-card-content style="font-size:3em; text-align: center">
-          28 PSU
-        </ion-card-content>
-      </ion-card>
-    </ion-col>
-    <ion-col>
-      <ion-card>
-        <ion-card-header>
-          <ion-icon name='thermometer' item-start></ion-icon>
-          Temperature
-        </ion-card-header>
-        <ion-card-content style="font-size:3.5em; text-align: center">
-          28&#176; C
-        </ion-card-content>
-      </ion-card>
-    </ion-col>
-  </ion-row>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-icon name='logo-bitcoin' item-start></ion-icon>
+            <div>Salinity (PSU)</div>
+          </ion-card-header>
+          <ion-card-content style="font-size:5.5em; text-align: center">
+            28
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+      <ion-col>
+        <ion-card>
+          <ion-card-header>
+            <ion-icon name='thermometer' item-start></ion-icon>
+            <div>Temperature (&#176;C)</div>
+          </ion-card-header>
+          <ion-card-content style="font-size:5.5em; text-align: center">
+            28
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
     <ion-row>
       <ion-col>
         <ion-card>
           <ion-card-header>
             <ion-icon name='beaker' item-start></ion-icon>
-            pH
+            <div>Parts Hydrogen</div>
           </ion-card-header>
           <ion-card-content style="font-size:5.5em; text-align: center">
             5.3
@@ -82,13 +48,23 @@
         <ion-card>
           <ion-card-header>
             <ion-icon name='keypad' item-start></ion-icon>
-            Turbidity
+            <div>Turbidity (NTU)</div>
           </ion-card-header>
-          <ion-card-content style="font-size:3em; text-align: center">
-            83 NTU
+          <ion-card-content style="font-size:5.5em; text-align: center">
+            83
           </ion-card-content>
         </ion-card>
       </ion-col>
     </ion-row>
   </ion-grid>
+  <div padding>
+    <button ion-button block large>
+      <ion-icon name='bookmark' item-start padding-right="10px" style="font-size: 2em"></ion-icon>
+      <b>Save Sample</b>
+    </button>
+    <button ion-button block outline color="danger">
+      <ion-icon name='trash' item-start padding-right="10px" style="font-size: 2em"></ion-icon>
+      <b>Delete Sample</b>
+    </button>
+  </div>
 </ion-content>
