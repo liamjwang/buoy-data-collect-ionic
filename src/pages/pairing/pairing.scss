@@ -15,3 +15,7 @@ page-sample {
 #pairingList .buoyTitle {
   font-size: 1.6em;
 }
+
+#pairingList ion-item:active {
+  background: #ececec;
+}

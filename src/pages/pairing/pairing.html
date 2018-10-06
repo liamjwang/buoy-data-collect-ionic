@@ -6,12 +6,20 @@
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
-  <button ion-button block>Refresh</button>
+<ion-content>
+
+  <ion-refresher (ionRefresh)="doRefresh($event)" [pullMin]="100" [pullMax]="300" style="padding-top: 30px">
+    <ion-refresher-content
+      pullingIcon="arrow-down"
+      pullingText="Pull to refresh"
+      refreshingSpinner="ios"
+      refreshingText="Searching for waterwand devices...">
+    </ion-refresher-content>
+  </ion-refresher>
   <ion-list id="pairingList" no-border>
 
     <ion-list-header>
-      Devices
+      Devices (Pull to refresh)
     </ion-list-header>
 
     <ion-item (click)="pair()">

@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 
-import { SamplePage } from "../sample/sample";
+import { LiveviewPage } from "../liveview/liveview";
 
 @Component({
   selector: 'page-pairing',
@@ -16,7 +16,15 @@ export class PairingPage {
   items: ["<ion-item>Angola</ion-item>","so","cool"];
 
   pair() {
-    this.navCtrl.push(SamplePage)
+    this.navCtrl.push(LiveviewPage)
+  }
+  doRefresh(refresher) {
+    console.log('Begin async operation', refresher);
+
+    setTimeout(() => {
+      console.log('Async operation has ended');
+      refresher.complete();
+    }, 9000);
   }
 
 }
