@@ -5,6 +5,8 @@ import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
 import { SamplePage } from '../pages/sample/sample';
+import { LiveviewPage } from '../pages/liveview/liveview';
+
 import { PairingPage } from '../pages/pairing/pairing';
 import { AnalysisPage } from '../pages/analysis/analysis';
 import { DataPage } from '../pages/data/data';
@@ -18,6 +20,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   declarations: [
     MyApp,
     SamplePage,
+    LiveviewPage,
     AnalysisPage,
     DataPage,
     UploadPage,
@@ -33,6 +36,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   entryComponents: [
     MyApp,
     SamplePage,
+    LiveviewPage,
     AnalysisPage,
     DataPage,
     UploadPage,
