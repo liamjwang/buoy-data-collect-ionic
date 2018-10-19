@@ -11,33 +11,8 @@
       Datapoints
     </ion-list-header>
 
-    <ion-item>
-      Datapoint 1
-      <ion-icon name='arrow-forward' item-end color="medium"></ion-icon>
-    </ion-item>
-
-    <ion-item>
-      Datapoint 2
-      <ion-icon name='arrow-forward' item-end color="medium"></ion-icon>
-    </ion-item>
-
-    <ion-item>
-      Datapoint 3
-      <ion-icon name='arrow-forward' item-end color="medium"></ion-icon>
-    </ion-item>
-
-    <ion-item>
-      Datapoint 4
-      <ion-icon name='arrow-forward' item-end color="medium"></ion-icon>
-    </ion-item>
-
-    <ion-item>
-      Datapoint 5
-      <ion-icon name='arrow-forward' item-end color="medium"></ion-icon>
-    </ion-item>
-
-    <ion-item>
-      Datapoint 6
+    <ion-item *ngFor="let data of allData" (click)="openSample(data.id)">
+      {{data.name}}
       <ion-icon name='arrow-forward' item-end color="medium"></ion-icon>
     </ion-item>
   </ion-list>
