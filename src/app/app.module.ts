@@ -4,7 +4,10 @@ import { GaugeModule } from 'angular-gauge';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 
+import { BLE } from '@ionic-native/ble';
+
 import { SamplePage } from '../pages/sample/sample';
+import { EditSamplePage } from '../pages/edit-sample/edit-sample';
 import { LiveviewPage } from '../pages/liveview/liveview';
 
 import { PairingPage } from '../pages/pairing/pairing';
@@ -15,11 +18,13 @@ import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { DataManagerProvider } from '../providers/data-manager/data-manager';
 
 @NgModule({
   declarations: [
     MyApp,
     SamplePage,
+    EditSamplePage,
     LiveviewPage,
     AnalysisPage,
     DataPage,
@@ -36,6 +41,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   entryComponents: [
     MyApp,
     SamplePage,
+    EditSamplePage,
     LiveviewPage,
     AnalysisPage,
     DataPage,
@@ -46,7 +52,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    BLE,
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    DataManagerProvider
   ]
 })
 export class AppModule {}

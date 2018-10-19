@@ -13,7 +13,7 @@
       pullingIcon="arrow-down"
       pullingText="Pull to refresh"
       refreshingSpinner="ios"
-      refreshingText="Searching for waterwand devices...">
+      refreshingText="Searching for WaterWand devices...">
     </ion-refresher-content>
   </ion-refresher>
   <ion-list id="pairingList" no-border>
@@ -22,30 +22,14 @@
       Devices (Pull to refresh)
     </ion-list-header>
 
-    <ion-item (click)="pair()">
+    <ion-item *ngFor="let device of devices" (click)="connect(device)" >
       <ion-icon name='help-buoy' item-start></ion-icon>
-      <div class="buoyTitle">Buoy 1 Name</div>
-      <ion-icon name='arrow-forward' item-end color="medium"></ion-icon>
-    </ion-item>
-    <ion-item (click)="pair()">
-      <ion-icon name='help-buoy' item-start></ion-icon>
-      <div class="buoyTitle">Buoy 2 Name</div>
+      <div class="buoyTitle">{{device.name}}</div>
       <!--<ion-note item-end>-->
-        <!--Buoy 1 Description-->
+      <!--Buoy 1 Description-->
       <!--</ion-note>-->
       <ion-icon name='arrow-forward' item-end color="medium"></ion-icon>
     </ion-item>
-    <ion-item (click)="pair()">
-      <ion-icon name='help-buoy' item-start></ion-icon>
-      <div class="buoyTitle">Buoy 3 Name</div>
-      <ion-icon name='arrow-forward' item-end color="medium"></ion-icon>
-    </ion-item>
-    <ion-item (click)="pair()">
-      <ion-icon name='help-buoy' item-start></ion-icon>
-      <div class="buoyTitle">Buoy 4 Name</div>
-      <ion-icon name='arrow-forward' item-end color="medium"></ion-icon>
-    </ion-item>
-
   </ion-list>
 
 

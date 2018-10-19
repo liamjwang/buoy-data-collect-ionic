@@ -1,5 +1,7 @@
 {
-  "name": "buoy-data-collect-ionic",
-  "integrations": {},
+  "name": "buoy-data-collect-ionic-ng",
+  "integrations": {
+    "cordova": {}
+  },
   "type": "ionic-angular"
 }
