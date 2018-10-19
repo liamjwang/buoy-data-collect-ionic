@@ -15,5 +15,22 @@ page-analysis {
     }
 
   }
+  ion-card-header {
+    padding: 2px 16px 0 16px;
+  }
+
+  @media screen and (orientation:portrait) {
+
+  }
+
+  @media screen and (orientation:landscape) {
+    canvas {
+      height: 320px !important;
+    }
+
+    ion-header {
+      display: none;
+    }
+  }
 
 }
