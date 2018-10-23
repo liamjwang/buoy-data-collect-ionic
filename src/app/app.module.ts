@@ -20,7 +20,7 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { DataManagerProvider } from '../providers/data-manager/data-manager';
-import { WaterwandUartProvider } from '../providers/waterwand-uart/waterwand-uart';
+import { WaterwandBleApiProvider } from '../providers/waterwand-ble-api/waterwand-ble-api';
 
 @NgModule({
   declarations: [
@@ -58,7 +58,7 @@ import { WaterwandUartProvider } from '../providers/waterwand-uart/waterwand-uar
     BLE,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DataManagerProvider,
-    WaterwandUartProvider
+    WaterwandBleApiProvider
   ]
 })
 export class AppModule {}

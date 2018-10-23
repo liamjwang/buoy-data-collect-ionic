@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 
-import {BLE} from '@ionic-native/ble';
+import { WaterwandBleApiProvider} from "../../providers/waterwand-ble-api/waterwand-ble-api";
 
 import {LiveviewPage} from "../liveview/liveview";
 
@@ -11,7 +11,7 @@ import {LiveviewPage} from "../liveview/liveview";
 })
 export class PairingPage {
 
-  constructor(public navCtrl: NavController, private ble: BLE) {
+  constructor(public navCtrl: NavController, private bleapi: WaterwandBleApiProvider) {
 
   }
 
@@ -23,7 +23,7 @@ export class PairingPage {
     console.log('Begin async operation', refresher);
 
     let firstDeviceFlag = false;
-    this.ble.scan(["6e400001-b5a3-f393-e0a9-e50e24dcca9e"], 5).subscribe((device) => {
+    this.bleapi.ble.scan(["6e400001-b5a3-f393-e0a9-e50e24dcca9e"], 5).subscribe((device) => {
       if (!firstDeviceFlag) {
         firstDeviceFlag = true;
         this.devices = [];
@@ -35,7 +35,7 @@ export class PairingPage {
     setTimeout(() => {
       console.log('Async operation has ended');
       refresher.complete();
-    }, 5000);
+    }, 2000);
   }
 
   onError(reason) {
@@ -44,27 +44,17 @@ export class PairingPage {
 
   connect(device) {
     this.navCtrl.push(LiveviewPage);
-    //
-    // console.log("Attempting to connect to device with id " + device.id);
-    // var deviceId = device.id;
-    //
-    //
-    // this.ble.connect(deviceId).subscribe((peripheral) => {
-    //   {
-    //     console.log("Connected!");
-    //     console.log(peripheral);
-    //
-    //     // // subscribe for incoming data
-    //     // this.ble.startNotification(deviceId,
-    //     //   "6e400002-b5a3-f393-e0a9-e50e24dcca9e",
-    //     //   "6e400003-b5a3-f393-e0a9-e50e24dcca9e")
-    //     //   .subscribe(this.onData, this.onError);
-    //     this.navCtrl.push(LiveviewPage);
-    //   }
-    // }, this.onError);
-  }
 
-  onData(data) { // data received from Arduino
-    console.log(data);
+    console.log("Attempting to connect to device with id " + device.id);
+    var deviceId = device.id;
+
+
+    this.bleapi.connect(deviceId).subscribe((peripheral) => {
+      {
+        console.log("Connected!");
+        console.log(peripheral);
+        this.navCtrl.push(LiveviewPage);
+      }
+    }, this.onError);
   }
 }
