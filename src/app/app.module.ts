@@ -7,7 +7,6 @@ import { MyApp } from './app.component';
 import { BLE } from '@ionic-native/ble';
 import { SQLite } from '@ionic-native/sqlite';
 
-import { SamplePage } from '../pages/sample/sample';
 import { EditSamplePage } from '../pages/edit-sample/edit-sample';
 import { LiveviewPage } from '../pages/liveview/liveview';
 
@@ -27,7 +26,6 @@ import { firebaseConfig } from './credentials';
 @NgModule({
   declarations: [
     MyApp,
-    SamplePage,
     EditSamplePage,
     LiveviewPage,
     DataPage,
@@ -44,7 +42,6 @@ import { firebaseConfig } from './credentials';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    SamplePage,
     EditSamplePage,
     LiveviewPage,
     DataPage,
