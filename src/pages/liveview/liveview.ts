@@ -86,11 +86,11 @@ export class LiveviewPage {
   kickToPairing(): Promise<any> {
     return this.navCtrl.pop().then(() => {
       let alert = this.alertCtrl.create({
-        title: 'Error',
-        subTitle: 'Unable to connect to device.\nPlease try again later.',
+        title: 'Connection Error',
+        subTitle: 'Unable to connect! Try rebooting the WaterWand device.',
         buttons: ['Dismiss']
       });
       return alert.present();
-    });
+    }).catch(e => console.log("[Kicking] Error: "+JSON.stringify(e)));
   }
 }

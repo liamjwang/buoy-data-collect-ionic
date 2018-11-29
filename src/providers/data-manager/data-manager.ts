@@ -48,7 +48,6 @@ export class DataManagerProvider {
         const data = [];
         for (let i = 0; i < e.rows.length; i++) {
           data.push(e.rows.item(i));
-          console.log(JSON.stringify(data[i]))
         }
         return data;
       });
@@ -57,8 +56,9 @@ export class DataManagerProvider {
   deleteSampleByID(sampleID: number): Promise<any[]> {
     return DataManagerProvider.db.executeSql("DELETE FROM Samples WHERE id="+sampleID)
       .catch(e => {
-        console.log(JSON.stringify(e));
-        return e});
+        console.log("[Database] Info: Deleting sample with id "+sampleID);
+        return e
+      });
   }
 
   addSample(
@@ -77,11 +77,10 @@ export class DataManagerProvider {
         "(NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?);",
         [name, description, salinity, turbidity, ph, temperature, timestamp, latitude, longitude])
         .catch(e => {
-          // console.log("IDC: ");
-          // return
+          console.log("[Data-Manager] Error: "+JSON.stringify(e))
         }).then(e => {
-        console.log("ID: ");
-        return e.insertId
+          console.log("[Database] Info: Added sample with id "+e.insertId);
+          return e.insertId
       });
     });
   }

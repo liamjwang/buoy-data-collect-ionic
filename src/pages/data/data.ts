@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import {AlertController, NavController} from 'ionic-angular';
 import { EditSamplePage } from "../edit-sample/edit-sample";
 import { DataManagerProvider } from "../../providers/data-manager/data-manager";
 import {LoadingController} from "ionic-angular";
@@ -10,7 +10,10 @@ import {LoadingController} from "ionic-angular";
 })
 export class DataPage {
 
-  constructor(public navCtrl: NavController, public dataManager: DataManagerProvider, private loadingCtrl: LoadingController) {
+  constructor(public navCtrl: NavController,
+              public dataManager: DataManagerProvider,
+              private alertCtrl: AlertController,
+              private loadingCtrl: LoadingController) {
 
   }
 
@@ -19,17 +22,33 @@ export class DataPage {
       return this.dataManager.getAllData()
     }).then(data => {
       this.allData = data;
-      // loading.dismiss();
     }).catch(e => {
-      // loading.dismiss();
-      return console.log(JSON.stringify("DataPage" + e));
+      console.log(JSON.stringify("[DataPage] Error: " + JSON.stringify(e)));
     });
   }
 
   allData: any[] = [];
 
   openSample (id) {
-    console.log("[Data] Opening sample with id: "+id);
     this.navCtrl.push(EditSamplePage, {sampleID: id});
+  }
+
+  uploadAll() {
+    let loading = this.loadingCtrl.create({
+      content: 'Uploading...'
+    });
+
+    loading.present().then(() => {
+      setTimeout(() => {
+        loading.dismiss().then(() => {
+          let alert = this.alertCtrl.create({
+            title: 'Upload Complete',
+            subTitle: 'Thank you! Your samples have been uploaded to the database.',
+            buttons: ['Done']
+          });
+          return alert.present();
+        });
+      }, 2000)
+    })
   }
 }

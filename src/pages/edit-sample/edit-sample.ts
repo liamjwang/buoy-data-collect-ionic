@@ -15,12 +15,13 @@ export class EditSamplePage {
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public dataManager: DataManagerProvider) {
     this.sampleID = this.navParams.get("sampleID");
-    console.log("[Edit-Sample] Created with id: "+this.sampleID);
   }
 
   deleteSample() {
     this.dataManager.deleteSampleByID(this.sampleID).then(() => this.navCtrl.pop());
   }
 
-
+  // on view start
+  // if can get, update
+  // otherwise, pop
 }

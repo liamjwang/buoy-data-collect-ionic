@@ -1,5 +1,5 @@
 import {Component, NgZone} from '@angular/core';
-import {AlertController, LoadingController, NavController} from 'ionic-angular';
+import {NavController} from 'ionic-angular';
 
 import {WaterwandBleApiProvider} from "../../providers/waterwand-ble-api/waterwand-ble-api";
 
@@ -13,10 +13,7 @@ export class PairingPage {
 
   constructor(public navCtrl: NavController,
               private bleapi: WaterwandBleApiProvider,
-              private zone: NgZone,
-              private alertCtrl: AlertController,
-              public loadingCtrl: LoadingController) {
-
+              private zone: NgZone) {
   }
 
   devices: any[] = [];
@@ -36,15 +33,10 @@ export class PairingPage {
         firstDeviceFlag = true;
         this.devices = [];
       }
-      console.log(device);
       this.zone.run(() => {
         this.devices.push(device);
       });
-    }, this.onError);
-  }
-
-  onError(reason) {
-    alert("ERROR: " + JSON.stringify(reason)); // real apps should use notification.alert
+    },  e=>console.log("[Pairing] Error: "+JSON.stringify(e)));
   }
 
   connect(device) {

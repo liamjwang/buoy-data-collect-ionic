@@ -25,7 +25,8 @@ export class WaterwandBleApiProvider {
         this.ble.startNotification(deviceId, // automatically start listening when subscribed
           this.serviceUUID, // from adafruit website
           this.rxCharacteristic)
-          .subscribe(this.onData, this.onError);
+          .subscribe(this.onData, e => console.log("[BLE] Error: "+JSON.stringify(e)));
+        console.log("[BLE] Info: Connection established to device with id "+WaterwandBleApiProvider.deviceId);
         onConnect(true);
       }, () => {
           onConnect(false);
@@ -46,15 +47,9 @@ export class WaterwandBleApiProvider {
         )
       );
     } else {
-      console.log('[BLEAPI] Unknown data type: '+datastring);
+      console.log('[BLE] Unknown data type: '+datastring);
     }
 
-  }
-
-  private onError(data) {
-    console.log("Error: ");
-    console.log(JSON.stringify(data));
-    console.log(data);
   }
 
   private write(value: ArrayBuffer): Promise<any> {
@@ -70,6 +65,7 @@ export class WaterwandBleApiProvider {
   }
 
   disconnect() {
+    console.log("[BLE] Info: Disconnecting from device with id "+WaterwandBleApiProvider.deviceId);
     this.ble.disconnect(WaterwandBleApiProvider.deviceId);
     WaterwandBleApiProvider.deviceId = null;
   }

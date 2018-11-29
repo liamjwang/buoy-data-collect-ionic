@@ -1,28 +1,12 @@
 page-liveview {
-
-}
-
-#liveviewData ion-card {
-  height: 29vh;
-}
-#liveviewData {
-  text-align: center;
-}
-ion-icon {
-  font-size: 20pt;
-  padding-bottom: 2px;
-}
-mwl-gauge.two {
-}
-mwl-gauge.two > .gauge > .dial {
-  stroke: #334455;
-  stroke-width: 10;
-}
-mwl-gauge.two > .gauge > .value {
-  stroke: orange;
-  stroke-dasharray: none;
-  stroke-width: 13;
-}
-mwl-gauge.two > .gauge > .value-text {
-  fill: orange;
+  #liveviewData ion-card {
+    height: 29vh;
+  }
+  #liveviewData {
+    text-align: center;
+  }
+  ion-icon {
+    font-size: 20pt;
+    padding-bottom: 2px;
+  }
 }
