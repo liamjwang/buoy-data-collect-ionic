@@ -56,7 +56,15 @@ export class DataManagerProvider {
   deleteSampleByID(sampleID: number): Promise<any[]> {
     return DataManagerProvider.db.executeSql("DELETE FROM Samples WHERE id="+sampleID)
       .catch(e => {
-        console.log("[Database] Info: Deleting sample with id "+sampleID);
+        console.log("[Database] Info: Deleted sample with id "+sampleID);
+        return e
+      });
+  }
+
+  deleteAll(): Promise<any> {
+    return DataManagerProvider.db.executeSql("DELETE FROM Samples")
+      .catch(e => {
+        console.log("[Database] Info: Deleted all samples");
         return e
       });
   }

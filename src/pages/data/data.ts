@@ -41,6 +41,7 @@ export class DataPage {
     loading.present().then(() => {
       setTimeout(() => {
         loading.dismiss().then(() => {
+          this.dataManager.deleteAll().then(() => {this.ionViewDidEnter();});
           let alert = this.alertCtrl.create({
             title: 'Upload Complete',
             subTitle: 'Thank you! Your samples have been uploaded to the database.',
