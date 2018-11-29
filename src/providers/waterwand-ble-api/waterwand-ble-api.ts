@@ -3,8 +3,6 @@ import { Injectable } from '@angular/core';
 import {Observable} from "rxjs/Observable";
 import {RawSample} from "../../app/classes/raw-sample";
 
-declare type sampleCB = (sample: RawSample) => void;
-
 
 @Injectable()
 export class WaterwandBleApiProvider {
@@ -16,47 +14,68 @@ export class WaterwandBleApiProvider {
   constructor(public ble: BLE) {
   }
 
-  deviceId: string;
+  static deviceId: string;
+  static sampleCBarr: ((sample: RawSample) => void)[] = [];
 
-  connect(deviceId: string): Observable<any> {
-    this.deviceId = deviceId;
+  connect(deviceId: string, onConnect: (success: boolean) => void): void { // TODO: Return an observable
+    WaterwandBleApiProvider.deviceId = deviceId;
     var obs: Observable<any> = this.ble.connect(deviceId); // connect to ble device
     obs.subscribe(
-      () => this.ble.startNotification(deviceId, // automatically start listening when subscribed
-        this.serviceUUID, // from adafruit website
-      this.rxCharacteristic)
-      .subscribe(this.onData, this.onError)
+      () => {
+        this.ble.startNotification(deviceId, // automatically start listening when subscribed
+          this.serviceUUID, // from adafruit website
+          this.rxCharacteristic)
+          .subscribe(this.onData, this.onError);
+        onConnect(true);
+      }, () => {
+          onConnect(false);
+        }
     );
-    return obs; // pass observable
   }
 
-  sampleCBarr: sampleCB[] = [];
   private onData(data) {
-    console.log("Recieved Data: ");
-    console.log(JSON.stringify(data));
+    let datastring = String.fromCharCode.apply(null, new Uint8Array(data));
+
+    if (datastring.slice(0, 1) === "s") { // Incoming Sample
+      WaterwandBleApiProvider.sampleCBarr.pop()(
+        new RawSample(
+          parseInt(datastring.slice(1,3), 16),
+          parseInt(datastring.slice(3,5), 16),
+          parseInt(datastring.slice(5,7), 16),
+          parseInt(datastring.slice(7,9), 16)
+        )
+      );
+    } else {
+      console.log('[BLEAPI] Unknown data type: '+datastring);
+    }
 
   }
 
   private onError(data) {
     console.log("Error: ");
     console.log(JSON.stringify(data));
+    console.log(data);
   }
 
   private write(value: ArrayBuffer): Promise<any> {
-    return this.ble.write(this.deviceId, this.serviceUUID, this.txCharacteristic, value);
+    return this.ble.write(WaterwandBleApiProvider.deviceId, this.serviceUUID, this.txCharacteristic, value);
   }
 
-
-  getData(callback: sampleCB) {
+  getData(callback: (sample: RawSample) => void) {
     let input = new ArrayBuffer(1);
     let byteView = new Uint8Array(input);
     byteView[0] = 115;
-    this.write(input).then((rawSampleArray: string) => {
-      console.log();
-      console.log(JSON.stringify(rawSampleArray));
-      // let rawSample = new RawSample();
+    WaterwandBleApiProvider.sampleCBarr.push(callback);
+    this.write(input);
+  }
 
-    })
+  disconnect() {
+    this.ble.disconnect(WaterwandBleApiProvider.deviceId);
+    WaterwandBleApiProvider.deviceId = null;
+  }
+
+  isConnected(): boolean {
+    return WaterwandBleApiProvider.deviceId !== null;
   }
 }
 
