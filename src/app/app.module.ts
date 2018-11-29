@@ -12,9 +12,7 @@ import { EditSamplePage } from '../pages/edit-sample/edit-sample';
 import { LiveviewPage } from '../pages/liveview/liveview';
 
 import { PairingPage } from '../pages/pairing/pairing';
-import { AnalysisPage } from '../pages/analysis/analysis';
 import { DataPage } from '../pages/data/data';
-import { UploadPage } from '../pages/upload/upload';
 import { TabsPage } from '../pages/tabs/tabs';
 
 import { StatusBar } from '@ionic-native/status-bar';
@@ -32,9 +30,7 @@ import { firebaseConfig } from './credentials';
     SamplePage,
     EditSamplePage,
     LiveviewPage,
-    AnalysisPage,
     DataPage,
-    UploadPage,
     PairingPage,
     TabsPage
   ],
@@ -51,9 +47,7 @@ import { firebaseConfig } from './credentials';
     SamplePage,
     EditSamplePage,
     LiveviewPage,
-    AnalysisPage,
     DataPage,
-    UploadPage,
     PairingPage,
     TabsPage
   ],
