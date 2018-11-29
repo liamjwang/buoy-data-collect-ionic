@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import {Component} from '@angular/core';
 import { NavController } from 'ionic-angular';
 import {DataManagerProvider} from "../../providers/data-manager/data-manager";
+import {NavParams} from "ionic-angular";
 
 
 @Component({
@@ -9,10 +10,17 @@ import {DataManagerProvider} from "../../providers/data-manager/data-manager";
 })
 export class EditSamplePage {
 
-  constructor(public navCtrl: NavController, public dataManager: DataManagerProvider) {
+  sampleID: number;
+  datestring: string;
 
+  constructor(public navCtrl: NavController, public navParams: NavParams, public dataManager: DataManagerProvider) {
+    this.sampleID = this.navParams.get("sampleID");
+    console.log("[Edit-Sample] Created with id: "+this.sampleID);
   }
 
-  items: ["<ion-item>Angola</ion-item>","so","cool"];
+  deleteSample() {
+    this.dataManager.deleteSampleByID(this.sampleID).then(() => this.navCtrl.pop());
+  }
+
 
 }
