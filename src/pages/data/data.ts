@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { EditSamplePage } from "../edit-sample/edit-sample";
 import { DataManagerProvider } from "../../providers/data-manager/data-manager";
+import {LoadingController} from "ionic-angular";
 
 @Component({
   selector: 'page-data',
@@ -9,14 +10,26 @@ import { DataManagerProvider } from "../../providers/data-manager/data-manager";
 })
 export class DataPage {
 
-  constructor(public navCtrl: NavController, public dataManager: DataManagerProvider) {
-    this.dataManager.getAllData(d => this.allData = d);
+  constructor(public navCtrl: NavController, public dataManager: DataManagerProvider, private loadingCtrl: LoadingController) {
+
   }
 
-  allData: any[];
+  ionViewDidEnter() {
+    this.dataManager.initDb().then(() => {
+      return this.dataManager.getAllData()
+    }).then(data => {
+      this.allData = data;
+      // loading.dismiss();
+    }).catch(e => {
+      // loading.dismiss();
+      return console.log(JSON.stringify("DataPage" + e));
+    });
+  }
+
+  allData: any[] = [];
 
   openSample (id) {
-    this.navCtrl.push(EditSamplePage);
+    console.log("[Data] Opening sample with id: "+id);
+    this.navCtrl.push(EditSamplePage, {sampleID: id});
   }
-
 }

@@ -1,7 +1,7 @@
-import {Component} from '@angular/core';
-import {NavController} from 'ionic-angular';
+import {Component, NgZone} from '@angular/core';
+import {AlertController, LoadingController, NavController} from 'ionic-angular';
 
-import { WaterwandBleApiProvider} from "../../providers/waterwand-ble-api/waterwand-ble-api";
+import {WaterwandBleApiProvider} from "../../providers/waterwand-ble-api/waterwand-ble-api";
 
 import {LiveviewPage} from "../liveview/liveview";
 
@@ -11,31 +11,36 @@ import {LiveviewPage} from "../liveview/liveview";
 })
 export class PairingPage {
 
-  constructor(public navCtrl: NavController, private bleapi: WaterwandBleApiProvider) {
+  constructor(public navCtrl: NavController,
+              private bleapi: WaterwandBleApiProvider,
+              private zone: NgZone,
+              private alertCtrl: AlertController,
+              public loadingCtrl: LoadingController) {
 
   }
-
-  items: ["<ion-item>Angola</ion-item>", "so", "cool"];
 
   devices: any[] = [];
 
   doRefresh(refresher) {
-    console.log('Begin async operation', refresher);
+    this.scanForDevices();
 
+    setTimeout(() => {
+      refresher.complete();
+    }, 1000);
+  }
+
+  scanForDevices() {
     let firstDeviceFlag = false;
-    this.bleapi.ble.scan(["6e400001-b5a3-f393-e0a9-e50e24dcca9e"], 5).subscribe((device) => {
+    this.bleapi.ble.scan(["6e400001-b5a3-f393-e0a9-e50e24dcca9e"], 1).subscribe((device) => {
       if (!firstDeviceFlag) {
         firstDeviceFlag = true;
         this.devices = [];
       }
       console.log(device);
-      this.devices.push(device);
+      this.zone.run(() => {
+        this.devices.push(device);
+      });
     }, this.onError);
-
-    setTimeout(() => {
-      console.log('Async operation has ended');
-      refresher.complete();
-    }, 2000);
   }
 
   onError(reason) {
@@ -43,18 +48,10 @@ export class PairingPage {
   }
 
   connect(device) {
-    this.navCtrl.push(LiveviewPage);
+    this.navCtrl.push(LiveviewPage, {deviceID: device.id});
+  }
 
-    console.log("Attempting to connect to device with id " + device.id);
-    var deviceId = device.id;
-
-
-    this.bleapi.connect(deviceId).subscribe((peripheral) => {
-      {
-        console.log("Connected!");
-        console.log(peripheral);
-        this.navCtrl.push(LiveviewPage);
-      }
-    }, this.onError);
+  ionViewDidEnter() {
+    this.scanForDevices();
   }
 }
