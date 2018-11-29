@@ -1,7 +1,5 @@
 import {Injectable} from '@angular/core';
 import {SQLite, SQLiteObject} from "@ionic-native/sqlite";
-import {e} from "@angular/core/src/render3";
-import {Sample} from "../../app/classes/sample";
 
 @Injectable()
 export class DataManagerProvider {
