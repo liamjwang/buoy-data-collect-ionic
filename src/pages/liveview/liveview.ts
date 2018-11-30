@@ -38,9 +38,9 @@ export class LiveviewPage {
       this.liveSample.temperature,
       new Date().getTime(),
       3.14,
-      3.14,
+      2.78,
       ).then(e => {
-      this.navCtrl.push(EditSamplePage, {sampleID: e})
+      return this.navCtrl.push(EditSamplePage, {sampleID: e})
     });
   }
 
@@ -62,7 +62,7 @@ export class LiveviewPage {
         loading.dismiss().then(() => {
           return this.kickToPairing();
         });
-      }, 2000);
+      }, 5000);
 
       this.bleapi.connect(this.deviceID, (success) => {
         loading.dismiss().then(() => {
@@ -76,7 +76,7 @@ export class LiveviewPage {
               });
             });
           } else {
-            this.kickToPairing();
+            return this.kickToPairing();
           }
         });
       });
