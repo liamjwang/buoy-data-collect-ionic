@@ -1,8 +1,20 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      <ion-input style="text-align: center" placeholder="Tap to add name" value="{{name}}" large></ion-input>
+      <ion-input style="text-align: center" placeholder="Tap to enter name" value="{{name}}" large></ion-input>
     </ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="saveSample()">
+        <span ion-text color="primary" showWhen="ios">Save</span>
+        <ion-icon name="md-close" showWhen="android, windows"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons end>
+      <button ion-button (click)="deleteSample()">
+        <span ion-text color="danger" showWhen="ios">Delete</span>
+        <ion-icon name="md-close" showWhen="android, windows"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
@@ -67,16 +79,16 @@
   </div>
   <div padding style="padding: 10px 25px; font-size: 1.5em">
     <b>Description:</b>
-    <ion-textarea rows="5" placeholder="Tap to add description" value="{{description}}"></ion-textarea>
+    <ion-textarea rows="5" placeholder="Tap to enter description" value="{{description}}"></ion-textarea>
   </div>
-  <div padding>
-    <!--<button ion-button block large>-->
-      <!--<ion-icon name='bookmark' item-start padding-right="10px" style="font-size: 2em"></ion-icon>-->
-      <!--<b>Save Sample</b>-->
+  <!--<div padding>-->
+    <!--&lt;!&ndash;<button ion-button block large>&ndash;&gt;-->
+      <!--&lt;!&ndash;<ion-icon name='bookmark' item-start padding-right="10px" style="font-size: 2em"></ion-icon>&ndash;&gt;-->
+      <!--&lt;!&ndash;<b>Save Sample</b>&ndash;&gt;-->
+    <!--&lt;!&ndash;</button>&ndash;&gt;-->
+    <!--<button ion-button block outline color="danger" (click)="deleteSample()">-->
+      <!--<ion-icon name='trash' item-start padding-right="10px" style="font-size: 2em"></ion-icon>-->
+      <!--<b>Delete Sample</b>-->
     <!--</button>-->
-    <button ion-button block outline color="danger" (click)="deleteSample()">
-      <ion-icon name='trash' item-start padding-right="10px" style="font-size: 2em"></ion-icon>
-      <b>Delete Sample</b>
-    </button>
-  </div>
+  <!--</div>-->
 </ion-content>

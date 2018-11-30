@@ -1,5 +1,5 @@
 import {Component, NgZone} from '@angular/core';
-import { NavController } from 'ionic-angular';
+import {NavController, ViewController} from 'ionic-angular';
 import {DataManagerProvider} from "../../providers/data-manager/data-manager";
 import {NavParams} from "ionic-angular";
 
@@ -24,6 +24,7 @@ export class EditSamplePage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
+              public viewCtrl: ViewController,
               private zone: NgZone,
               private dataManager: DataManagerProvider) {
     this.sampleID = this.navParams.get("sampleID");
@@ -50,6 +51,10 @@ export class EditSamplePage {
 
   deleteSample() {
     this.dataManager.deleteSampleByID(this.sampleID).then(() => this.navCtrl.pop());
+  }
+
+  saveSample() {
+    this.viewCtrl.dismiss();
   }
 
   // on view start

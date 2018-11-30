@@ -1,7 +1,7 @@
 import {Component, NgZone} from '@angular/core';
-import {AlertController, LoadingController, NavController, NavParams} from 'ionic-angular';
+import {AlertController, LoadingController, ModalController, NavController, NavParams} from 'ionic-angular';
 
-import { WaterwandBleApiProvider} from "../../providers/waterwand-ble-api/waterwand-ble-api";
+import {WaterwandBleApiProvider} from "../../providers/waterwand-ble-api/waterwand-ble-api";
 
 import {RawSample} from "../../app/classes/raw-sample";
 import {Observable, Subscription} from "rxjs";
@@ -18,12 +18,13 @@ export class LiveviewPage {
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
+              public modalCtrl: ModalController,
               private bleapi: WaterwandBleApiProvider,
               private zone: NgZone,
               private loadingCtrl: LoadingController,
               private alertCtrl: AlertController,
               private dataManager: DataManagerProvider) {
-    this.liveSample = new RawSample(0, 0,0, 0);
+    this.liveSample = new RawSample(0, 0, 0, 0);
     this.deviceID = this.navParams.get("deviceID");
   }
 
@@ -39,8 +40,9 @@ export class LiveviewPage {
       new Date().getTime(),
       3.14,
       2.78,
-      ).then(e => {
-      return this.navCtrl.push(EditSamplePage, {sampleID: e})
+    ).then(e => {
+      let profileModal = this.modalCtrl.create(EditSamplePage, {sampleID: e});
+      return profileModal.present();
     });
   }
 
@@ -59,8 +61,8 @@ export class LiveviewPage {
     loading.present().then(() => {
 
       let pairTimeout = setTimeout(() => {
-        loading.dismiss().then(() => {
-          return this.kickToPairing();
+        this.kickToPairing().then(() => {
+          return loading.dismiss();
         });
       }, 5000);
 
@@ -91,6 +93,6 @@ export class LiveviewPage {
         buttons: ['Dismiss']
       });
       return alert.present();
-    }).catch(e => console.log("[Kicking] Error: "+JSON.stringify(e)));
+    }).catch(e => console.log("[Kicking] Error: " + JSON.stringify(e)));
   }
 }

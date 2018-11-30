@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AlertController, NavController, ToastController} from 'ionic-angular';
+import {AlertController, ModalController, NavController, ToastController} from 'ionic-angular';
 import {EditSamplePage} from "../edit-sample/edit-sample";
 import {DataManagerProvider} from "../../providers/data-manager/data-manager";
 import {LoadingController} from "ionic-angular";
@@ -12,6 +12,7 @@ export class DataPage {
 
   constructor(public navCtrl: NavController,
               public dataManager: DataManagerProvider,
+              public modalCtrl: ModalController,
               private alertCtrl: AlertController,
               private toastCtrl: ToastController,
               private loadingCtrl: LoadingController) {
@@ -31,12 +32,24 @@ export class DataPage {
   allData: any[] = [];
 
   openSample(id) {
-    this.navCtrl.push(EditSamplePage, {sampleID: id});
+    let profileModal = this.modalCtrl.create(EditSamplePage, {sampleID: id});
+    return profileModal.present();
   }
 
   uploadAll() {
+    if (this.allData.length === 0) {
+      let noDataToast = this.toastCtrl.create({
+        message: 'No data to upload!',
+        duration: 2000,
+        position: 'top'
+      });
+
+      noDataToast.present();
+      return;
+    }
+
     let alert = this.alertCtrl.create({
-      title: 'Confirm Upload',
+      title: 'Upload Confirmation',
       message: 'All samples stored on this device will be uploaded to the central database over wifi or cellular data. ' +
         'Samples will be removed from this device and cannot be edited later.',
       buttons: [
