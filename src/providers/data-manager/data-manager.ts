@@ -9,7 +9,7 @@ export class DataManagerProvider {
 
   static db: SQLiteObject = null;
 
-  initDb(): Promise<any> {
+  private initDb(): Promise<any> {
     if (DataManagerProvider.db === null) {
       return this.sqlite.create({
         name: 'data.db',
@@ -31,21 +31,15 @@ export class DataManagerProvider {
           "longitude DOUBLE " +
           ");")
       }).catch(e => e) // TODO: For some reason this rejects on success. WHy???
-        .then(() => {
-        return this.addSample(1000, 234, 7.1, 23.5664, 999999, 47.4485, 23.9494, "Cannon Beach Sample 1", "This sample was taken while water was leaking into the electronics of the waterwand device.");
-      }).then(() => {
-        return this.addSample(1001, 254, 7.1, 23.5664, 999999, 47.4485, 23.9494, "Cannon Beach Sample 2", "This sample was also taken while water was leaking into the electronics of the waterwand device.");
-      }).then(() => {
-        return this.addSample(1002, 450.1, 14, 7777, 999999, 47.4485, 23.9494, "Cannon Beach Sample 3", "This sample was also also taken while water was leaking into the electronics of the waterwand device.");
-      }).then(e => {return e})
     } else {
       return Promise.resolve();
     }
   }
 
   getAllData(): Promise<any[]> {
-    return DataManagerProvider.db.executeSql("SELECT * FROM Samples")
-      .catch(e => {
+    return this.initDb().then(() => {
+      return DataManagerProvider.db.executeSql("SELECT * FROM Samples")
+    }).catch(e => {
         const data = [];
         for (let i = 0; i < e.rows.length; i++) {
           data.push(e.rows.item(i));
@@ -55,7 +49,9 @@ export class DataManagerProvider {
   }
 
   getSampleByID(sampleID: number): Promise<any> {
-    return this.getAllData().then(sampleArr => {
+    return this.initDb().then(() => {
+      return this.getAllData()
+    }).then(sampleArr => {
       var result = sampleArr.filter(obj => {
         return obj.id === sampleID;
       });
@@ -64,8 +60,9 @@ export class DataManagerProvider {
   }
 
   deleteSampleByID(sampleID: number): Promise<any[]> {
-    return DataManagerProvider.db.executeSql("DELETE FROM Samples WHERE id="+sampleID)
-      .catch(e => {
+    return this.initDb().then(() => {
+      return DataManagerProvider.db.executeSql("DELETE FROM Samples WHERE id=" + sampleID)
+    }).catch(e => {
         console.log("[Database] Info: Deleted sample with id "+sampleID);
         return e
       });
