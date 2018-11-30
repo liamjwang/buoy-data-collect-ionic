@@ -1,5 +1,12 @@
 import {Component, NgZone} from '@angular/core';
-import {AlertController, LoadingController, ModalController, NavController, NavParams} from 'ionic-angular';
+import {
+  AlertController,
+  LoadingController,
+  ModalController,
+  NavController,
+  NavParams,
+  ToastController
+} from 'ionic-angular';
 
 import {WaterwandBleApiProvider} from "../../providers/waterwand-ble-api/waterwand-ble-api";
 
@@ -22,7 +29,7 @@ export class LiveviewPage {
               private bleapi: WaterwandBleApiProvider,
               private zone: NgZone,
               private loadingCtrl: LoadingController,
-              private alertCtrl: AlertController,
+              private toastCtrl: ToastController,
               private dataManager: DataManagerProvider) {
     this.deviceID = this.navParams.get("deviceID");
   }
@@ -84,12 +91,13 @@ export class LiveviewPage {
   }
 
   kickToPairing(): Promise<any> {
-    let alert = this.alertCtrl.create({
-      title: 'Connection Error',
-      subTitle: 'Unable to connect! Try rebooting the WaterWand device.',
-      buttons: ['Dismiss']
+    let disconnectedToast = this.toastCtrl.create({
+      message: 'Unable to connect to device! Reboot the WaterWand or try again later.',
+      duration: 3000,
+      position: 'top'
     });
-    return alert.present().then(() => {
+
+    return disconnectedToast.present().then(() => {
       return this.navCtrl.pop()
     }).catch(e => console.log("[Kicking] Error: " + JSON.stringify(e)));
   }
