@@ -99,4 +99,20 @@ export class DataManagerProvider {
       });
     });
   }
+
+  updateSampleNameDescription(id: number, name: string, description: string) {
+    return this.initDb().then(() => {
+      return DataManagerProvider.db.executeSql("UPDATE Samples "+
+      "SET name = ?, description = ? "+
+      "WHERE id = ?;",
+        [name, description, id])
+        .catch(e => {
+          console.log("[Data-Manager-Update] Error: "+JSON.stringify(e))
+        }).then(e => {
+          console.log("[Data-Manager-Update] asdf: "+JSON.stringify(e));
+          // console.log("[Database] Info: Updated sample with id "+e.insertId);
+          // return e.insertId
+        });
+    });
+  }
 }
