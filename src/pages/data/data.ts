@@ -1,7 +1,7 @@
-import { Component } from '@angular/core';
-import {AlertController, NavController} from 'ionic-angular';
-import { EditSamplePage } from "../edit-sample/edit-sample";
-import { DataManagerProvider } from "../../providers/data-manager/data-manager";
+import {Component} from '@angular/core';
+import {AlertController, NavController, ToastController} from 'ionic-angular';
+import {EditSamplePage} from "../edit-sample/edit-sample";
+import {DataManagerProvider} from "../../providers/data-manager/data-manager";
 import {LoadingController} from "ionic-angular";
 
 @Component({
@@ -13,6 +13,7 @@ export class DataPage {
   constructor(public navCtrl: NavController,
               public dataManager: DataManagerProvider,
               private alertCtrl: AlertController,
+              private toastCtrl: ToastController,
               private loadingCtrl: LoadingController) {
 
   }
@@ -29,27 +30,55 @@ export class DataPage {
 
   allData: any[] = [];
 
-  openSample (id) {
+  openSample(id) {
     this.navCtrl.push(EditSamplePage, {sampleID: id});
   }
 
   uploadAll() {
-    let loading = this.loadingCtrl.create({
-      content: 'Uploading...'
-    });
+    let alert = this.alertCtrl.create({
+      title: 'Confirm Upload',
+      message: 'All samples stored on this device will be uploaded to the central database over wifi or cellular data. ' +
+        'Samples will be removed from this device and cannot be edited later.',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          handler: () => {
+            let cancelToast = this.toastCtrl.create({
+              message: 'Upload cancelled!',
+              duration: 2000,
+              position: 'top'
+            });
 
-    loading.present().then(() => {
-      setTimeout(() => {
-        loading.dismiss().then(() => {
-          this.dataManager.deleteAll().then(() => {this.ionViewDidEnter();});
-          let alert = this.alertCtrl.create({
-            title: 'Upload Complete',
-            subTitle: 'Thank you! Your samples have been uploaded to the database.',
-            buttons: ['Done']
-          });
-          return alert.present();
-        });
-      }, 2000)
-    })
+            cancelToast.present();
+          }
+        },
+        {
+          text: 'Confirm',
+          handler: () => {
+            let loading = this.loadingCtrl.create({
+              content: 'Uploading...'
+            });
+
+            loading.present().then(() => {
+              setTimeout(() => {
+
+                this.dataManager.deleteAll().then(() => {
+                  this.ionViewDidEnter();
+                });
+                let completeToast = this.toastCtrl.create({
+                  message: 'Upload complete!',
+                  duration: 2000,
+                  position: 'top'
+                });
+
+                loading.dismiss().then(() => completeToast.present());
+              }, 2000)
+            })
+          }
+        }
+      ]
+    });
+    alert.present();
   }
 }

@@ -14,11 +14,11 @@
 
   <ion-list no-border>
     <ion-list-header>
-      Datapoints
+      All Samples
     </ion-list-header>
 
     <ion-item *ngFor="let data of allData" (click)="openSample(data.id)">
-      {{data.name}}
+      {{data.name!="" ? data.name : "Untitled Sample "+data.id}}
       <ion-icon name='arrow-forward' item-end color="medium"></ion-icon>
     </ion-item>
   </ion-list>
