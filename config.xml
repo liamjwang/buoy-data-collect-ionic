@@ -41,6 +41,9 @@
         <splash density="port-xxxhdpi" src="resources/android/splash/drawable-port-xxxhdpi-screen.png" />
     </platform>
     <platform name="ios">
+        <edit-config target="NSLocationWhenInUseUsageDescription" file="*-Info.plist" mode="merge">
+          <string>Location access is needed to geotag samples taken with WaterWand devices</string>
+        </edit-config>
         <allow-intent href="itms:*" />
         <allow-intent href="itms-apps:*" />
         <icon height="57" src="resources/ios/icon/icon.png" width="57" />
@@ -85,7 +88,7 @@
     <plugin name="cordova-sqlite-storage" spec="2.5.0" />
     <plugin name="cordova-plugin-ble-central" spec="1.2.2" />
     <plugin name="cordova-plugin-geolocation" spec="4.0.1">
-        <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="To geotag WaterWand samples" />
+        <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="Location access is needed to geotag samples taken with WaterWand devices" />
     </plugin>
     <engine name="android" spec="^7.1.1" />
     <engine name="ios" spec="4.5.5" />
