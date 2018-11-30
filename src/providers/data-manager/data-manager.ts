@@ -30,13 +30,14 @@ export class DataManagerProvider {
           "latitude DOUBLE, " +
           "longitude DOUBLE " +
           ");")
-      }).catch(() => {
-        return DataManagerProvider.db.executeSql("INSERT INTO Samples (name, temperature) VALUES ('cool', 3.14);")
-      }).catch(() => {
-        return DataManagerProvider.db.executeSql("INSERT INTO Samples (name, temperature) VALUES ('sick', 3.14);")
-      }).catch(() => {
-        return DataManagerProvider.db.executeSql("INSERT INTO Samples (name, temperature) VALUES ('wow', 3.14);")
-      }).catch(e => {return e})
+      }).catch(e => e) // TODO: For some reason this rejects on success. WHy???
+        .then(() => {
+        return this.addSample(1000, 234, 7.1, 23.5664, 999999, 47.4485, 23.9494, "Cannon Beach Sample 1", "This sample was taken while water was leaking into the electronics of the waterwand device.");
+      }).then(() => {
+        return this.addSample(1001, 254, 7.1, 23.5664, 999999, 47.4485, 23.9494, "Cannon Beach Sample 2", "This sample was also taken while water was leaking into the electronics of the waterwand device.");
+      }).then(() => {
+        return this.addSample(1002, 450.1, 14, 7777, 999999, 47.4485, 23.9494, "Cannon Beach Sample 3", "This sample was also also taken while water was leaking into the electronics of the waterwand device.");
+      }).then(e => {return e})
     } else {
       return Promise.resolve();
     }
@@ -51,6 +52,15 @@ export class DataManagerProvider {
         }
         return data;
       });
+  }
+
+  getSampleByID(sampleID: number): Promise<any> {
+    return this.getAllData().then(sampleArr => {
+      var result = sampleArr.filter(obj => {
+        return obj.id === sampleID;
+      });
+      return result[0];
+    })
   }
 
   deleteSampleByID(sampleID: number): Promise<any[]> {
