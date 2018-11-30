@@ -41,7 +41,7 @@ export class LiveviewPage {
   liveUpdateSubscription: Subscription;
 
   saveSample() {
-    this.geolocation.getCurrentPosition().then(data => {
+    this.geolocation.getCurrentPosition().then(data => { // TODO: If geolocation doesnt work, alert them to it and take anyways
       return this.dataManager.addSample(
         this.liveSample.salinity,
         this.liveSample.turbidity,
