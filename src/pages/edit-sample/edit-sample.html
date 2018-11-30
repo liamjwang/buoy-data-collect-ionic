@@ -73,9 +73,9 @@
       <b>Timestamp:</b>
       <span style="float:right;">{{timestampString}}</span><br />
       <b>Latitude:</b>
-      <span style="float:right;">{{sample?.latitude}}</span><br />
+      <span style="float:right;">{{sample.latitude === null ? "?" : sample?.latitude}}</span><br />
       <b>Longitude:</b>
-      <span style="float:right;">{{sample?.longitude}}</span>
+      <span style="float:right;">{{sample.longitude === null ? "?" : sample?.longitude}}</span>
   </div>
   <div padding style="padding: 10px 25px; font-size: 1.5em">
     <b>Description:</b>
