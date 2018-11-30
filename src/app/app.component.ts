@@ -12,7 +12,7 @@ import {WaterwandBleApiProvider} from "../providers/waterwand-ble-api/waterwand-
 export class MyApp {
   rootPage:any = TabsPage;
 
-  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, bleapi: WaterwandBleApiProvider) {
+  constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen) {
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
       // Here you can do any higher level native things you might need.

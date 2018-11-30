@@ -7,7 +7,6 @@
 </ion-header>
 
 <ion-content>
-
   <ion-refresher (ionRefresh)="doRefresh($event)" [pullMin]="100" [pullMax]="300" style="padding-top: 30px">
     <ion-refresher-content
       pullingIcon="arrow-down"
@@ -25,9 +24,6 @@
     <ion-item *ngFor="let device of devices" (click)="connect(device)" >
       <ion-icon name='help-buoy' item-start></ion-icon>
       <div class="buoyTitle">{{device.name}}</div>
-      <!--<ion-note item-end>-->
-      <!--Buoy 1 Description-->
-      <!--</ion-note>-->
       <ion-icon name='arrow-forward' item-end color="medium"></ion-icon>
     </ion-item>
   </ion-list>
@@ -43,6 +39,4 @@
       </ol>
     </div>
   </div>
-
-
 </ion-content>
