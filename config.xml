@@ -88,4 +88,5 @@
         <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="To geotag WaterWand samples" />
     </plugin>
     <engine name="android" spec="^7.1.1" />
+    <engine name="ios" spec="4.5.5" />
 </widget>
