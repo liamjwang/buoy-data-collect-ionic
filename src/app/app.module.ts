@@ -19,9 +19,9 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { DataManagerProvider } from '../providers/data-manager/data-manager';
 import { WaterwandBleApiProvider } from '../providers/waterwand-ble-api/waterwand-ble-api';
 
-import { AngularFireModule } from 'angularfire2';
-import { AngularFirestoreModule } from 'angularfire2/firestore';
-import { firebaseConfig } from './credentials';
+// import { AngularFireModule } from 'angularfire2';
+// import { AngularFirestoreModule } from 'angularfire2/firestore';
+// import { firebaseConfig } from './credentials';
 import {FormsModule} from "@angular/forms";
 
 import { Geolocation } from '@ionic-native/geolocation';
@@ -41,8 +41,8 @@ import { Geolocation } from '@ionic-native/geolocation';
     FormsModule,
     GaugeModule.forRoot(),
     IonicModule.forRoot(MyApp),
-    AngularFireModule.initializeApp(firebaseConfig),
-    AngularFirestoreModule
+    // AngularFireModule.initializeApp(firebaseConfig),
+    // AngularFirestoreModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
