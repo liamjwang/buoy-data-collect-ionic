@@ -1,4 +1,4 @@
-import {Component, NgZone} from '@angular/core';
+import {Component} from '@angular/core';
 import {NavController} from 'ionic-angular';
 
 import {WaterwandBleApiProvider} from "../../providers/waterwand-ble-api/waterwand-ble-api";
@@ -12,8 +12,7 @@ import {LiveviewPage} from "../liveview/liveview";
 export class PairingPage {
 
   constructor(public navCtrl: NavController,
-              private bleapi: WaterwandBleApiProvider,
-              private zone: NgZone) {
+              private bleapi: WaterwandBleApiProvider) {
   }
 
   devices: any[] = [];

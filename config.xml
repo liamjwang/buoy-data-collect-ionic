@@ -83,6 +83,9 @@
     <plugin name="cordova-plugin-ionic-webview" spec="^2.0.0" />
     <plugin name="cordova-plugin-ionic-keyboard" spec="^2.0.5" />
     <plugin name="cordova-sqlite-storage" spec="2.5.0" />
-    <engine name="android" spec="^7.1.1" />
     <plugin name="cordova-plugin-ble-central" spec="1.2.2" />
+    <plugin name="cordova-plugin-geolocation" spec="4.0.1">
+        <variable name="GEOLOCATION_USAGE_DESCRIPTION" value="To geotag WaterWand samples" />
+    </plugin>
+    <engine name="android" spec="^7.1.1" />
 </widget>

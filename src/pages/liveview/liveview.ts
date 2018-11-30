@@ -14,6 +14,8 @@ import {RawSample} from "../../app/classes/raw-sample";
 import {Observable, Subscription} from "rxjs";
 import {EditSamplePage} from "../edit-sample/edit-sample";
 import {DataManagerProvider} from "../../providers/data-manager/data-manager";
+import { Geolocation } from '@ionic-native/geolocation';
+
 
 @Component({
   selector: 'page-liveview',
@@ -30,6 +32,7 @@ export class LiveviewPage {
               private zone: NgZone,
               private loadingCtrl: LoadingController,
               private toastCtrl: ToastController,
+              private geolocation: Geolocation,
               private dataManager: DataManagerProvider) {
     this.deviceID = this.navParams.get("deviceID");
   }
@@ -38,18 +41,23 @@ export class LiveviewPage {
   liveUpdateSubscription: Subscription;
 
   saveSample() {
-    this.dataManager.addSample(
-      this.liveSample.salinity,
-      this.liveSample.turbidity,
-      this.liveSample.ph,
-      this.liveSample.temperature,
-      new Date().getTime(),
-      3.14,
-      2.78,
-    ).then(e => {
+    this.geolocation.getCurrentPosition().then(data => {
+      return this.dataManager.addSample(
+        this.liveSample.salinity,
+        this.liveSample.turbidity,
+        this.liveSample.ph,
+        this.liveSample.temperature,
+        new Date().getTime(),
+        data.coords.latitude,
+        data.coords.longitude,
+      )
+    }).then(e => {
       let profileModal = this.modalCtrl.create(EditSamplePage, {sampleID: e});
       return profileModal.present();
+    }).catch((error) => {
+      console.log('[LiveView] Error getting location', JSON.stringify(error));
     });
+
   }
 
   ionViewDidLeave() {

@@ -24,6 +24,9 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { firebaseConfig } from './credentials';
 import {FormsModule} from "@angular/forms";
 
+import { Geolocation } from '@ionic-native/geolocation';
+
+
 @NgModule({
   declarations: [
     MyApp,
@@ -57,7 +60,8 @@ import {FormsModule} from "@angular/forms";
     BLE,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     DataManagerProvider,
-    WaterwandBleApiProvider
+    WaterwandBleApiProvider,
+    Geolocation
   ]
 })
 export class AppModule {}
