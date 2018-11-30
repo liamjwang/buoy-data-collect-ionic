@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      <ion-input style="text-align: center" placeholder="Tap to add name" large></ion-input>
+      <ion-input style="text-align: center" placeholder="Tap to add name" value="{{name}}" large></ion-input>
     </ion-title>
   </ion-navbar>
 </ion-header>
@@ -16,7 +16,7 @@
             <div>Salinity (PSU)</div>
           </ion-card-header>
           <ion-card-content style="font-size:5.5em; text-align: center">
-            28
+            {{salinity}}
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -27,7 +27,7 @@
             <div>Temperature (&#176;C)</div>
           </ion-card-header>
           <ion-card-content style="font-size:5.5em; text-align: center">
-            28
+            {{temperature}}
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -40,7 +40,7 @@
             <div>Parts Hydrogen</div>
           </ion-card-header>
           <ion-card-content style="font-size:5.5em; text-align: center">
-            5.3
+            {{ph}}
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -51,7 +51,7 @@
             <div>Turbidity (NTU)</div>
           </ion-card-header>
           <ion-card-content style="font-size:5.5em; text-align: center">
-            83
+            {{turbidity}}
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -59,14 +59,15 @@
   </ion-grid>
   <div style="padding: 10px 25px; font-size: 1.5em; text-align:left">
       <b>Timestamp:</b>
-      <span style="float:right;">9/23/2018 10:33:36</span><br />
+      <span style="float:right;">{{timestamp}}</span><br />
       <b>Latitude:</b>
-      <span style="float:right;">45.5478683</span><br />
+      <span style="float:right;">{{latitude}}</span><br />
       <b>Longitude:</b>
-      <span style="float:right;">-122.791471</span>
+      <span style="float:right;">{{longitude}}</span>
   </div>
   <div padding style="padding: 10px 25px; font-size: 1.5em">
-    <ion-textarea rows="5" placeholder="Tap to add description"></ion-textarea>
+    <b>Description:</b>
+    <ion-textarea rows="5" placeholder="Tap to add description" value="{{description}}"></ion-textarea>
   </div>
   <div padding>
     <!--<button ion-button block large>-->

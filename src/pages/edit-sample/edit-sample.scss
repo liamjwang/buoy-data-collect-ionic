@@ -1,4 +1,11 @@
 page-edit-sample {
+  ion-card-content, span {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+  }
+
   ion-title input {
     text-align: center;
   }
