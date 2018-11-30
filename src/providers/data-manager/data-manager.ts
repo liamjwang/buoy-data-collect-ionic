@@ -75,8 +75,8 @@ export class DataManagerProvider {
     ph: number,
     temperature: number,
     timestamp: number,
-    longitude: number = null,
     latitude: number = null,
+    longitude: number = null,
     name: string = "",
     description: string = ""
     ): Promise<any> {
