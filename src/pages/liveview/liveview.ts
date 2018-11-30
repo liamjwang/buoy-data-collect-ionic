@@ -66,32 +66,31 @@ export class LiveviewPage {
       }, 5000);
 
       this.bleapi.connect(this.deviceID, (success) => {
-        loading.dismiss().then(() => {
-          clearTimeout(pairTimeout);
-          if (success) {
-            this.liveUpdateSubscription = Observable.interval(100).subscribe(() => {
-              this.bleapi.getData((rawSample: RawSample) => {
-                this.zone.run(() => {
-                  this.liveSample = rawSample;
-                });
+        loading.dismiss();
+        clearTimeout(pairTimeout);
+        if (success) {
+          this.liveUpdateSubscription = Observable.interval(100).subscribe(() => {
+            this.bleapi.getData((rawSample: RawSample) => {
+              this.zone.run(() => {
+                this.liveSample = rawSample;
               });
             });
-          } else {
-            return this.kickToPairing();
-          }
-        });
+          });
+        } else {
+          return this.kickToPairing();
+        }
       });
     });
   }
 
   kickToPairing(): Promise<any> {
-    return this.navCtrl.pop().then(() => {
-      let alert = this.alertCtrl.create({
-        title: 'Connection Error',
-        subTitle: 'Unable to connect! Try rebooting the WaterWand device.',
-        buttons: ['Dismiss']
-      });
-      return alert.present();
+    let alert = this.alertCtrl.create({
+      title: 'Connection Error',
+      subTitle: 'Unable to connect! Try rebooting the WaterWand device.',
+      buttons: ['Dismiss']
+    });
+    return alert.present().then(() => {
+      return this.navCtrl.pop()
     }).catch(e => console.log("[Kicking] Error: " + JSON.stringify(e)));
   }
 }
