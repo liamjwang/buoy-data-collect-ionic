@@ -24,7 +24,6 @@ export class LiveviewPage {
               private loadingCtrl: LoadingController,
               private alertCtrl: AlertController,
               private dataManager: DataManagerProvider) {
-    this.liveSample = new RawSample(0, 0, 0, 0);
     this.deviceID = this.navParams.get("deviceID");
   }
 
@@ -53,7 +52,7 @@ export class LiveviewPage {
     this.bleapi.disconnect();
   }
 
-  ionViewDidEnter() {
+  ionViewWillEnter() {
     let loading = this.loadingCtrl.create({
       content: 'Connecting...'
     });

@@ -16,7 +16,7 @@
             <div>Salinity (PSU)</div>
           </ion-card-header>
           <ion-card-content style="font-size:5.5em; text-align: center">
-            {{liveSample?.salinity}}
+            {{liveSample === undefined ? "?" : liveSample?.salinity}}
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -27,7 +27,7 @@
             <div>Temperature (&#176;C)</div>
           </ion-card-header>
           <ion-card-content style="font-size:5.5em; text-align: center">
-            {{liveSample?.temperature}}
+            {{liveSample === undefined ? "?" : liveSample?.temperature}}
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -40,7 +40,7 @@
             <div>Parts Hydrogen</div>
           </ion-card-header>
           <ion-card-content style="font-size:5.5em; text-align: center">
-            {{liveSample?.ph}}
+            {{liveSample === undefined ? "?" : liveSample?.ph}}
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -51,7 +51,7 @@
             <div>Turbidity (NTU)</div>
           </ion-card-header>
           <ion-card-content style="font-size:5.5em; text-align: center">
-            {{liveSample?.turbidity}}
+            {{liveSample === undefined ? "?" : liveSample?.turbidity}}
           </ion-card-content>
         </ion-card>
       </ion-col>
