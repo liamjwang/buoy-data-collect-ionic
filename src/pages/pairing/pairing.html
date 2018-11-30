@@ -16,7 +16,7 @@
       refreshingText="Searching for WaterWand devices...">
     </ion-refresher-content>
   </ion-refresher>
-  <ion-list id="pairingList" no-border>
+  <ion-list *ngIf="devices.length===0" id="pairingList" no-border>
 
     <ion-list-header>
       Devices (Pull to refresh)
@@ -31,6 +31,18 @@
       <ion-icon name='arrow-forward' item-end color="medium"></ion-icon>
     </ion-item>
   </ion-list>
+  <div *ngIf="devices.length===0" padding>
+    <div id="no-devices-text">
+      <h1>No WaterWand devices found!</h1><br />
+      <h3>Troubleshooting:</h3>
+      <ol>
+        <li>Make sure bluetooth low energy is enabled on this device</li>
+        <li>Ensure the WaterWand device is switched on</li>
+        <li>Wait a couple moments and refresh the page (pull to refresh)</li>
+        <li>If the problem persists, reboot the WaterWand</li>
+      </ol>
+    </div>
+  </div>
 
 
 </ion-content>

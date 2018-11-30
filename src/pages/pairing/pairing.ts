@@ -9,7 +9,7 @@ import {LiveviewPage} from "../liveview/liveview";
   selector: 'page-pairing',
   templateUrl: 'pairing.html'
 })
-export class PairingPage {
+export class PairingPage { // TODO: Add thing that tells user how to troubleshoot no devices found
 
   constructor(public navCtrl: NavController,
               private bleapi: WaterwandBleApiProvider) {
