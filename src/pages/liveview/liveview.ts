@@ -32,6 +32,7 @@ export class LiveviewPage {
               private zone: NgZone,
               private loadingCtrl: LoadingController,
               private toastCtrl: ToastController,
+              private alertCtrl: AlertController,
               private geolocation: Geolocation,
               private dataManager: DataManagerProvider) {
     this.deviceID = this.navParams.get("deviceID");
@@ -41,7 +42,11 @@ export class LiveviewPage {
   liveUpdateSubscription: Subscription;
 
   saveSample() {
-    this.geolocation.getCurrentPosition().then(data => { // TODO: If geolocation doesnt work, alert them to it and take anyways
+    this.geolocation.getCurrentPosition({
+      enableHighAccuracy: true,
+      timeout: 5000,
+      maximumAge: 30000
+    }).then(data => { // TODO: If geolocation doesnt work, alert them to it and take anyways
       return this.dataManager.addSample(
         this.liveSample.salinity,
         this.liveSample.turbidity,
@@ -55,7 +60,39 @@ export class LiveviewPage {
       let profileModal = this.modalCtrl.create(EditSamplePage, {sampleID: e});
       return profileModal.present();
     }).catch((error) => {
-      console.log('[LiveView] Error getting location', JSON.stringify(error));
+      if (error.code === 1) {
+        console.log('[LiveView] Location permission denied: ', JSON.stringify(error));
+        let alert = this.alertCtrl.create({
+          title: 'Location Error',
+          message: 'We were unable to retrieve your location in order to geotag this sample. ' +
+            'Please change your settings to allow this app location access. ' +
+            'Note: If you choose to take a sample without a location, you must specify exactly where the sample was taken.',
+          buttons: [
+          {
+            text: 'Sample Without Location',
+            handler: () => {
+              this.dataManager.addSample(
+                this.liveSample.salinity,
+                this.liveSample.turbidity,
+                this.liveSample.ph,
+                this.liveSample.temperature,
+                new Date().getTime(),
+              ).then(e => {
+                let profileModal = this.modalCtrl.create(EditSamplePage, {sampleID: e});
+                return profileModal.present();
+              })
+            }
+          },
+          {
+            text: 'Cancel',
+            role: 'cancel'
+          }
+        ]
+        });
+        alert.present();
+      } else {
+        console.log('[LiveView] Unknown error when getting location: ', JSON.stringify(error));
+      }
     });
 
   }
@@ -100,7 +137,7 @@ export class LiveviewPage {
 
   kickToPairing(): Promise<any> {
     let disconnectedToast = this.toastCtrl.create({
-      message: 'Unable to connect to device! Reboot the WaterWand or try again later.',
+      message: 'Unable to connect to device! Please try again later.',
       duration: 3000,
       position: 'top'
     });
