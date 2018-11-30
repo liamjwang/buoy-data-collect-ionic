@@ -20,9 +20,11 @@ export class DataPage {
   }
 
   ionViewDidEnter() {
-    this.dataManager.initDb().then(() => {
-      return this.dataManager.getAllData()
-    }).then(data => {
+    this.refreshData()
+  }
+
+  private refreshData() {
+    this.dataManager.getAllData().then(data => {
       this.allData = data;
     }).catch(e => {
       console.log(JSON.stringify("[DataPage] Error: " + JSON.stringify(e)));
@@ -33,7 +35,12 @@ export class DataPage {
 
   openSample(id) {
     let profileModal = this.modalCtrl.create(EditSamplePage, {sampleID: id});
-    return profileModal.present();
+    return profileModal.present().then(() => {
+      profileModal.onWillDismiss(() => {
+        this.refreshData();
+      })
+    });
+
   }
 
   uploadAll() {

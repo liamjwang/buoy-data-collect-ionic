@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Data</ion-title>
+    <ion-title>Manage Data</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -12,7 +12,7 @@
     </button>
   </div>
 
-  <ion-list no-border>
+  <ion-list *ngIf="allData.length!==0" no-border>
     <ion-list-header>
       All Samples
     </ion-list-header>
@@ -22,5 +22,10 @@
       <ion-icon name='arrow-forward' item-end color="medium"></ion-icon>
     </ion-item>
   </ion-list>
+  <div *ngIf="allData.length===0" padding>
+    <div id="no-samples-text">No samples yet!<br />
+      Use the "New Sample" tab below to start collecting.</div>
+    <ion-icon id="no-samples-arrow" name='arrow-round-down'></ion-icon>
+  </div>
 
 </ion-content>

@@ -2,4 +2,33 @@ page-data {
   ion-item:active {
     background: #efefef;
   }
+  #no-samples-text {
+    font-size: 2em;
+    text-align: center;
+    font-style: italic;
+    color: lightgrey;
+  }
+  #no-samples-arrow {
+    color: lightgrey;
+  }
+
+  @media screen and (orientation:portrait) {
+    #no-samples-text {
+      padding: 15vh 0 0 0;
+    }
+    #no-samples-arrow {
+      padding: 20vh 0 0 16vw;
+      font-size: 8em;
+    }
+  }
+
+  @media screen and (orientation:landscape) {
+    #no-samples-text {
+      padding: 1vh 0 0 0;
+    }
+    #no-samples-arrow {
+      font-size: 7em;
+      padding: 7vh 0 0 29vw;
+    }
+  }
 }
