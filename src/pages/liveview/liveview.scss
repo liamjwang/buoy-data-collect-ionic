@@ -2,7 +2,18 @@ page-liveview {
   #liveviewData ion-card {
     height: 29vh;
   }
-  #liveviewData {
+
+  ion-buttons {
+    margin: 0 10px;
+  }
+
+  ion-title input {
+    text-align: center;
+  }
+  #sampleData ion-card {
+    height: 200px;
+  }
+  #sampleData {
     text-align: center;
   }
   ion-icon {
