@@ -26,17 +26,21 @@ export class PairingPage {
     }, 1000);
   }
 
+  refreshLock: boolean = false;
   scanForDevices() {
-    let firstDeviceFlag = false;
+    if (this.refreshLock) {
+      return;
+    }
+    this.refreshLock = true;
+    let newDevices = [];
     this.bleapi.ble.scan(["6e400001-b5a3-f393-e0a9-e50e24dcca9e"], 1).subscribe((device) => {
-      if (!firstDeviceFlag) {
-        firstDeviceFlag = true;
-        this.devices = [];
-      }
-      this.zone.run(() => {
-        this.devices.push(device);
-      });
-    },  e=>console.log("[Pairing] Error: "+JSON.stringify(e)));
+      newDevices.push(device)
+    });
+
+    setTimeout(() => {
+      this.devices = newDevices;
+      this.refreshLock = false;
+    }, 1000);
   }
 
   connect(device) {
