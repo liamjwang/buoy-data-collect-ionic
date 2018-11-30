@@ -3,24 +3,17 @@ import {NavController, ViewController} from 'ionic-angular';
 import {DataManagerProvider} from "../../providers/data-manager/data-manager";
 import {NavParams} from "ionic-angular";
 
-
 @Component({
   selector: 'page-edit-sample',
-  templateUrl: 'edit-sample.html'
+  templateUrl: 'edit-sample.html',
 })
 export class EditSamplePage {
 
   sampleID: number;
 
-  name: string;
-  description: string;
-  salinity: number;
-  turbidity: number;
-  ph: number;
-  temperature: number;
-  timestamp: string;
-  latitude: number;
-  longitude: number;
+  sample: any = {};
+  timestampString: string;
+
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -28,23 +21,18 @@ export class EditSamplePage {
               private zone: NgZone,
               private dataManager: DataManagerProvider) {
     this.sampleID = this.navParams.get("sampleID");
+    this.sample.name = "";
+    this.sample.description = "";
+
     this.openSample();
   }
 
   openSample(): Promise<any> {
     return this.dataManager.getSampleByID(this.sampleID).then(sample => {
-      console.log("[EditSample] Info: Got sample: "+JSON.stringify(sample));
       this.zone.run(() => {
-        this.name = sample.name;
-        this.description = sample.description;
-        this.salinity = sample.salinity;
-        this.turbidity = sample.turbidity;
-        this.ph = sample.ph;
-        this.temperature = sample.temperature;
+        this.sample = sample;
         let timestampDate = new Date(sample.timestamp);
-        this.timestamp = timestampDate.toLocaleDateString()+"  "+timestampDate.toLocaleTimeString();
-        this.latitude = sample.latitude;
-        this.longitude = sample.longitude;
+        this.timestampString = timestampDate.toLocaleDateString()+"  "+timestampDate.toLocaleTimeString();
       });
     })
   }
@@ -54,6 +42,7 @@ export class EditSamplePage {
   }
 
   saveSample() {
+    this.dataManager.updateSampleNameDescription(this.sampleID, this.sample.name, this.sample.description);
     this.viewCtrl.dismiss();
   }
 

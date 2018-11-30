@@ -22,6 +22,7 @@ import { WaterwandBleApiProvider } from '../providers/waterwand-ble-api/waterwan
 import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { firebaseConfig } from './credentials';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { firebaseConfig } from './credentials';
   ],
   imports: [
     BrowserModule,
+    FormsModule,
     GaugeModule.forRoot(),
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig),

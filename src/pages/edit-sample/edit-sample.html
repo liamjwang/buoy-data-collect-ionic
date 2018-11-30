@@ -1,7 +1,7 @@
 <ion-header>
   <ion-navbar>
     <ion-title>
-      <ion-input style="text-align: center" placeholder="Tap to enter name" value="{{name}}" large></ion-input>
+      <ion-input style="text-align: center" placeholder="Tap to enter name" [(ngModel)]="sample.name" large></ion-input>
     </ion-title>
     <ion-buttons start>
       <button ion-button (click)="saveSample()">
@@ -28,7 +28,7 @@
             <div>Salinity (PSU)</div>
           </ion-card-header>
           <ion-card-content style="font-size:5.5em; text-align: center">
-            {{salinity}}
+            {{sample?.salinity}}
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -39,7 +39,7 @@
             <div>Temperature (&#176;C)</div>
           </ion-card-header>
           <ion-card-content style="font-size:5.5em; text-align: center">
-            {{temperature}}
+            {{sample?.temperature}}
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -52,7 +52,7 @@
             <div>Parts Hydrogen</div>
           </ion-card-header>
           <ion-card-content style="font-size:5.5em; text-align: center">
-            {{ph}}
+            {{sample?.ph}}
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -63,7 +63,7 @@
             <div>Turbidity (NTU)</div>
           </ion-card-header>
           <ion-card-content style="font-size:5.5em; text-align: center">
-            {{turbidity}}
+            {{sample?.turbidity}}
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -71,15 +71,15 @@
   </ion-grid>
   <div style="padding: 10px 25px; font-size: 1.5em; text-align:left">
       <b>Timestamp:</b>
-      <span style="float:right;">{{timestamp}}</span><br />
+      <span style="float:right;">{{timestampString}}</span><br />
       <b>Latitude:</b>
-      <span style="float:right;">{{latitude}}</span><br />
+      <span style="float:right;">{{sample?.latitude}}</span><br />
       <b>Longitude:</b>
-      <span style="float:right;">{{longitude}}</span>
+      <span style="float:right;">{{sample?.longitude}}</span>
   </div>
   <div padding style="padding: 10px 25px; font-size: 1.5em">
     <b>Description:</b>
-    <ion-textarea rows="5" placeholder="Tap to enter description" value="{{description}}"></ion-textarea>
+    <ion-textarea rows="5" placeholder="Tap to enter description" [(ngModel)]="sample.description"></ion-textarea>
   </div>
   <!--<div padding>-->
     <!--&lt;!&ndash;<button ion-button block large>&ndash;&gt;-->
