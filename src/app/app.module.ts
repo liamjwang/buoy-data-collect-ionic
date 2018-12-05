@@ -25,6 +25,7 @@ import { WaterwandBleApiProvider } from '../providers/waterwand-ble-api/waterwan
 import {FormsModule} from "@angular/forms";
 
 import { Geolocation } from '@ionic-native/geolocation';
+import {CalibrationMenuPage} from "../pages/calibration-menu/calibration-menu";
 
 
 @NgModule({
@@ -34,6 +35,7 @@ import { Geolocation } from '@ionic-native/geolocation';
     LiveviewPage,
     DataPage,
     PairingPage,
+    CalibrationMenuPage,
     TabsPage
   ],
   imports: [
@@ -51,6 +53,7 @@ import { Geolocation } from '@ionic-native/geolocation';
     LiveviewPage,
     DataPage,
     PairingPage,
+    CalibrationMenuPage,
     TabsPage
   ],
   providers: [

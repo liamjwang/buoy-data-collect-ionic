@@ -1,0 +1,28 @@
+page-calibration-menu {
+  ion-card-content, span {
+    -webkit-user-select: text;
+    -moz-user-select: text;
+    -ms-user-select: text;
+    user-select: text;
+  }
+
+  ion-buttons {
+    margin: 0 10px;
+  }
+
+  ion-title input {
+    text-align: center;
+  }
+  #sampleData ion-card {
+    height: 200px;
+  }
+  #sampleData {
+    text-align: center;
+  }
+  ion-icon {
+    font-size: 20pt;
+    padding-bottom: 2px;
+  }
+}
+
+

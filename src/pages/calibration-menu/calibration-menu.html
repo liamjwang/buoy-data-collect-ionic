@@ -1,0 +1,36 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Calibration</ion-title>
+    <ion-buttons start>
+      <button ion-button (click)="saveSample()">
+        <span ion-text color="primary">Done</span>
+        <ion-icon name="md-close" showWhen="android, windows"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content>
+  <ion-list no-border>
+    <ion-list-header>
+      Calibration Options:
+    </ion-list-header>
+
+    <ion-item (click)="calibrateTurbidity()">
+      Calibrate Turbidity Sensor
+      <ion-icon name='arrow-forward' item-end color="medium"></ion-icon>
+    </ion-item>
+    <ion-item (click)="calibrateSalinity()">
+      Calibrate Salinity Sensor
+      <ion-icon name='arrow-forward' item-end color="medium"></ion-icon>
+    </ion-item>
+    <ion-item (click)="calibratePh()">
+      Calibrate pH Sensor
+      <ion-icon name='arrow-forward' item-end color="medium"></ion-icon>
+    </ion-item>
+    <ion-item (click)="calibratePhVoltage()">
+      Calibrate pH Sensor Voltage Max (Advanced)
+      <ion-icon name='arrow-forward' item-end color="medium"></ion-icon>
+    </ion-item>
+  </ion-list>
+</ion-content>
