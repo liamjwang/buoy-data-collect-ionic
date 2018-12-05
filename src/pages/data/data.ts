@@ -29,7 +29,7 @@ export class DataPage {
     this.dataManager.getAllData().then(data => {
       this.allData = data;
     }).catch(e => {
-      console.log(JSON.stringify("[DataPage] Error: " + JSON.stringify(e)));
+      console.log("[DataPage] Error: " + JSON.stringify(e));
     });
   }
 
