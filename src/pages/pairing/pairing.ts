@@ -37,6 +37,7 @@ export class PairingPage { // TODO: Add thing that tells user how to troubleshoo
     });
 
     setTimeout(() => {
+      this.devices = [];
       this.devices = newDevices;
       this.refreshLock = false;
     }, 1000);
