@@ -1,7 +1,5 @@
 import {Component, NgZone} from '@angular/core';
-import {AlertController, LoadingController, NavController, ToastController, ViewController} from 'ionic-angular';
-import {DataManagerProvider} from "../../providers/data-manager/data-manager";
-import {NavParams} from "ionic-angular";
+import {AlertController, LoadingController, ToastController, ViewController} from 'ionic-angular';
 import {RawSample} from "../../app/classes/raw-sample";
 import {WaterwandBleApiProvider} from "../../providers/waterwand-ble-api/waterwand-ble-api";
 
@@ -11,15 +9,12 @@ import {WaterwandBleApiProvider} from "../../providers/waterwand-ble-api/waterwa
 })
 export class CalibrationMenuPage {
 
-  constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              public viewCtrl: ViewController,
+  constructor(public viewCtrl: ViewController,
               private alertCtrl: AlertController,
               private bleapi: WaterwandBleApiProvider,
               private zone: NgZone,
               private loadingCtrl: LoadingController,
-              private toastCtrl: ToastController,
-              private dataManager: DataManagerProvider) {
+              private toastCtrl: ToastController) {
   }
 
 
@@ -27,10 +22,6 @@ export class CalibrationMenuPage {
     this.viewCtrl.dismiss();
   }
 
-
-  // on view start
-  // if can get, update
-  // otherwise, pop
   calibrateSalinity() {
     let alert = this.alertCtrl.create({
       title: 'Salinity Calibration',
@@ -45,9 +36,6 @@ export class CalibrationMenuPage {
         {
           text: 'Next',
           handler: () => {
-            let loading = this.loadingCtrl.create({
-              content: 'Calibrating...'
-            });
             this.bleapi.getData((rawSample: RawSample) => {
               this.bleapi.writeToEEPROM(3, rawSample.salinity, () => {
 
@@ -81,9 +69,6 @@ export class CalibrationMenuPage {
         {
           text: 'Next',
           handler: () => {
-            let loading = this.loadingCtrl.create({
-              content: 'Calibrating...'
-            });
             this.bleapi.getData((rawSample: RawSample) => {
               this.bleapi.writeToEEPROM(0, rawSample.turbidity, () => {
 
@@ -117,9 +102,6 @@ export class CalibrationMenuPage {
         {
           text: 'Next',
           handler: () => {
-            let loading = this.loadingCtrl.create({
-              content: 'Calibrating...'
-            });
             this.bleapi.getData((rawSample: RawSample) => {
               this.bleapi.writeToEEPROM(1, rawSample.ph, () => {
 
@@ -154,9 +136,6 @@ export class CalibrationMenuPage {
         {
           text: 'Next',
           handler: () => {
-            let loading = this.loadingCtrl.create({
-              content: 'Calibrating...'
-            });
             this.bleapi.getData((rawSample: RawSample) => {
               this.bleapi.writeToEEPROM(2, rawSample.ph, () => {
 

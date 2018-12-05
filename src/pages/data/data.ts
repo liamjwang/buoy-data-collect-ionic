@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {AlertController, ModalController, NavController, ToastController} from 'ionic-angular';
+import {AlertController, ModalController, ToastController} from 'ionic-angular';
 import {EditSamplePage} from "../edit-sample/edit-sample";
 import {DataManagerProvider} from "../../providers/data-manager/data-manager";
 import {LoadingController} from "ionic-angular";
@@ -11,8 +11,7 @@ import {WaterwandBleApiProvider} from "../../providers/waterwand-ble-api/waterwa
 })
 export class DataPage {
 
-  constructor(public navCtrl: NavController,
-              public dataManager: DataManagerProvider,
+  constructor(public dataManager: DataManagerProvider,
               public modalCtrl: ModalController,
               private alertCtrl: AlertController,
               private toastCtrl: ToastController,
