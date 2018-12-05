@@ -109,9 +109,7 @@ export class DataManagerProvider {
         .catch(e => {
           console.log("[Data-Manager-Update] Error: "+JSON.stringify(e))
         }).then(e => {
-          console.log("[Data-Manager-Update] asdf: "+JSON.stringify(e));
-          // console.log("[Database] Info: Updated sample with id "+e.insertId);
-          // return e.insertId
+          console.log("[Data-Manager-Update] Updated sample: "+JSON.stringify(e));
         });
     });
   }
