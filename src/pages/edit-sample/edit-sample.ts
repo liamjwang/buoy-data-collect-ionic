@@ -2,6 +2,7 @@ import {Component, NgZone} from '@angular/core';
 import {NavController, ViewController} from 'ionic-angular';
 import {DataManagerProvider} from "../../providers/data-manager/data-manager";
 import {NavParams} from "ionic-angular";
+import {RawSample} from "../../app/classes/raw-sample";
 
 @Component({
   selector: 'page-edit-sample',
@@ -12,6 +13,7 @@ export class EditSamplePage {
   sampleID: number;
 
   sample: any = {};
+  liveSample: RawSample;
   timestampString: string;
 
 
@@ -31,6 +33,8 @@ export class EditSamplePage {
     return this.dataManager.getSampleByID(this.sampleID).then(sample => {
       this.zone.run(() => {
         this.sample = sample;
+        this.liveSample = new RawSample(sample.salinity, sample.turbidity, sample.ph, sample.temperature);
+        this.liveSample.generateStrings();
         let timestampDate = new Date(sample.timestamp);
         this.timestampString = timestampDate.toLocaleDateString()+"  "+timestampDate.toLocaleTimeString();
       });

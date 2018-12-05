@@ -15,8 +15,10 @@
             <ion-icon name='logo-bitcoin' item-start></ion-icon>
             <div>Salinity (PSU)</div>
           </ion-card-header>
-          <ion-card-content style="font-size:5.5em; text-align: center">
-            {{liveSample === undefined ? "?" : liveSample?.salinity}}
+          <ion-card-content
+            [style.font-size]="liveSample?.salinityString.length >= 4  ? '3.9em': liveSample?.salinityString.length == 3 ? '5em' : '5.5em'"
+            [style.margin-top]="liveSample?.salinityString.length >= 4  ? '2vh' : liveSample?.salinityString.length == 3 ? '.5vh' : '0'" style="text-align: center">
+            {{liveSample === undefined ? "?" : liveSample?.salinityString}}
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -26,8 +28,9 @@
             <ion-icon name='thermometer' item-start></ion-icon>
             <div>Temperature (&#176;C)</div>
           </ion-card-header>
-          <ion-card-content style="font-size:5.5em; text-align: center">
-            {{liveSample === undefined ? "?" : liveSample?.temperature}}
+          <ion-card-content [style.font-size]="liveSample?.temperatureString.length >= 4  ? '3.9em': liveSample?.temperatureString.length == 3 ? '5em' : '5.5em'"
+                            [style.margin-top]="liveSample?.temperatureString.length >= 4  ? '2vh' : liveSample?.temperatureString.length == 3 ? '.5vh' : '0'" style="text-align: center">
+            {{liveSample === undefined ? "?" : liveSample?.temperatureString}}
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -39,8 +42,9 @@
             <ion-icon name='beaker' item-start></ion-icon>
             <div>Parts Hydrogen</div>
           </ion-card-header>
-          <ion-card-content style="font-size:5.5em; text-align: center">
-            {{liveSample === undefined ? "?" : liveSample?.ph}}
+          <ion-card-content [style.font-size]="liveSample?.phString.length >= 4 ? '3.9em': liveSample?.phString.length == 3 ? '5em' : '5.5em'"
+                            [style.margin-top]="liveSample?.phString.length >= 4 ? '2vh' : liveSample?.phString.length == 3 ? '.5vh' : '0'" style="text-align: center">
+            {{liveSample === undefined ? "?" : liveSample?.phString}}
           </ion-card-content>
         </ion-card>
       </ion-col>
@@ -50,8 +54,10 @@
             <ion-icon name='keypad' item-start></ion-icon>
             <div>Turbidity (NTU)</div>
           </ion-card-header>
-          <ion-card-content style="font-size:5.5em; text-align: center">
-            {{liveSample === undefined ? "?" : liveSample?.turbidity}}
+          <ion-card-content [style.font-size]="liveSample?.turbidityString.length >= 4  ? '3.9em': liveSample?.turbidityString.length == 3 ? '5em' : '5.5em'"
+                            [style.margin-top]="liveSample?.turbidityString.length >= 4  ? '2vh' : liveSample?.turbidityString.length == 3 ? '.5vh' : '0'"
+                            style="text-align: center;">
+            {{liveSample === undefined ? "?" : liveSample?.turbidityString}}
           </ion-card-content>
         </ion-card>
       </ion-col>
