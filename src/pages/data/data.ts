@@ -3,6 +3,7 @@ import {AlertController, ModalController, NavController, ToastController} from '
 import {EditSamplePage} from "../edit-sample/edit-sample";
 import {DataManagerProvider} from "../../providers/data-manager/data-manager";
 import {LoadingController} from "ionic-angular";
+import {WaterwandBleApiProvider} from "../../providers/waterwand-ble-api/waterwand-ble-api";
 
 @Component({
   selector: 'page-data',
@@ -15,6 +16,7 @@ export class DataPage {
               public modalCtrl: ModalController,
               private alertCtrl: AlertController,
               private toastCtrl: ToastController,
+              private bleapi: WaterwandBleApiProvider,
               private loadingCtrl: LoadingController) {
 
   }
