@@ -15,6 +15,7 @@ import {Observable, Subscription} from "rxjs";
 import {EditSamplePage} from "../edit-sample/edit-sample";
 import {DataManagerProvider} from "../../providers/data-manager/data-manager";
 import { Geolocation } from '@ionic-native/geolocation';
+import {CalibrationMenuPage} from "../calibration-menu/calibration-menu";
 
 
 @Component({
@@ -24,6 +25,10 @@ import { Geolocation } from '@ionic-native/geolocation';
 export class LiveviewPage {
 
   deviceID: string;
+  turbidityCalibration: number = 0;
+  phVDCalibration: number = 0;
+  phOffsetCalibration: number = 0;
+  salinityScaleCalibration: number = 0;
 
   constructor(public navCtrl: NavController,
               public navParams: NavParams,
@@ -37,9 +42,29 @@ export class LiveviewPage {
               private dataManager: DataManagerProvider) {
     this.deviceID = this.navParams.get("deviceID");
   }
+  displayDate: string;
 
   liveSample: RawSample;
   liveUpdateSubscription: Subscription;
+
+  updateCalibrationValues(): Promise<any> {
+    return new Promise((resolve, reject) => {
+      this.bleapi.readFromEEPROM(0, num => {
+        this.turbidityCalibration = num;
+        this.bleapi.readFromEEPROM(1, num => {
+          this.phOffsetCalibration = num;
+          this.bleapi.readFromEEPROM(2, num => {
+            this.phVDCalibration = num;
+            this.bleapi.readFromEEPROM(3, num => {
+              this.salinityScaleCalibration = num;
+              console.log("[Liveview] Assigned calibration values");
+              resolve();
+            });
+          });
+        });
+      });
+    });
+  }
 
   saveSample() {
     this.geolocation.getCurrentPosition({
@@ -112,19 +137,31 @@ export class LiveviewPage {
     loading.present().then(() => {
 
       let pairTimeout = setTimeout(() => {
+        console.log("[LiveView] Pairing timeout");
         this.kickToPairing().then(() => {
           return loading.dismiss();
         });
       }, 5000);
 
       this.bleapi.connect(this.deviceID, (success) => {
-        loading.dismiss();
         clearTimeout(pairTimeout);
+        loading.dismiss();
         if (success) {
-          this.liveUpdateSubscription = Observable.interval(100).subscribe(() => {
-            this.bleapi.getData((rawSample: RawSample) => {
-              this.zone.run(() => {
-                this.liveSample = rawSample;
+          this.updateCalibrationValues().then(() => {
+            console.log("[LiveView] Starting live update");
+            this.liveUpdateSubscription = Observable.interval(500).subscribe(() => {
+              this.bleapi.getData((rawSample: RawSample) => {
+                this.zone.run(() => {
+                  let rawTurbidityScaled = rawSample.turbidity/this.turbidityCalibration;
+                  let turbidityAfterFormula = -4352.9 + 24117.7*rawTurbidityScaled - 19763.9 *rawTurbidityScaled*rawTurbidityScaled;
+                  this.liveSample = new RawSample(
+                    rawSample.salinity/255*30,
+                    Math.round(rawTurbidityScaled<0.61?3000:rawTurbidityScaled>1?0:turbidityAfterFormula),
+                    rawSample.ph/this.phVDCalibration*3*3.5,
+                    Math.round(this.scale(rawSample.temperature, 0, 255, 0, 85)*10)/10,
+                  );
+                  this.liveSample.generateStrings();
+                });
               });
             });
           });
@@ -133,6 +170,10 @@ export class LiveviewPage {
         }
       });
     });
+  }
+
+  scale(num, in_min, in_max, out_min, out_max) {
+    return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
   }
 
   kickToPairing(): Promise<any> {
@@ -145,5 +186,13 @@ export class LiveviewPage {
     return disconnectedToast.present().then(() => {
       return this.navCtrl.pop()
     }).catch(e => console.log("[Kicking] Error: " + JSON.stringify(e)));
+  }
+
+  openCalibration() {
+    let calibrationModal = this.modalCtrl.create(CalibrationMenuPage);
+    calibrationModal.onWillDismiss(() => {
+      this.ionViewWillEnter();
+    });
+    return calibrationModal.present();
   }
 }
