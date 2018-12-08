@@ -17,7 +17,7 @@ export class DataManagerProvider {
       }).then((db: SQLiteObject) => { // TODO: Figure out why SQLiteObject rejects on success?!?!?!
 
         DataManagerProvider.db = db;
-        db.executeSql("DROP TABLE Samples;").then().catch(e => e); // TODO: Remove this
+        // db.executeSql("DROP TABLE Samples;").then().catch(e => e); // TODO: Remove this
         return db.executeSql("CREATE TABLE IF NOT EXISTS Samples (" +
           "id INTEGER PRIMARY KEY, " +
           "name VARCHAR(255), " +
