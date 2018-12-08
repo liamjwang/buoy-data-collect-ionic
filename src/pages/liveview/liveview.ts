@@ -1,7 +1,7 @@
 import {Component, NgZone} from '@angular/core';
 import {
   AlertController,
-  LoadingController,
+  LoadingController, LoadingOptions,
   ModalController,
   NavController,
   NavParams,
@@ -45,9 +45,9 @@ export class LiveviewPage {
   displayDate: string;
 
   liveSample: RawSample;
-  liveUpdateSubscription: Subscription;
+  static liveUpdateSubscription: Subscription;
 
-  updateCalibrationValues(): Promise<any> {
+  updateCalibrationValues(callback: ()=>void) {
     return new Promise((resolve, reject) => {
       this.bleapi.readFromEEPROM(0, num => {
         this.turbidityCalibration = num;
@@ -58,11 +58,11 @@ export class LiveviewPage {
             this.bleapi.readFromEEPROM(3, num => {
               this.salinityScaleCalibration = num;
               console.log("[Liveview] Assigned calibration values");
-              resolve();
-            });
-          });
-        });
-      });
+              callback();
+            }, () => callback());
+          }, () => callback());
+        }, () => callback());
+      }, () => callback());
     });
   }
 
@@ -123,8 +123,8 @@ export class LiveviewPage {
   }
 
   ionViewDidLeave() {
-    if (this.liveUpdateSubscription !== undefined) {
-      this.liveUpdateSubscription.unsubscribe();
+    if (LiveviewPage.liveUpdateSubscription !== undefined) {
+      LiveviewPage.liveUpdateSubscription.unsubscribe();
     }
     this.bleapi.disconnect();
   }
@@ -141,31 +141,20 @@ export class LiveviewPage {
         this.kickToPairing().then(() => {
           return loading.dismiss();
         });
-      }, 5000);
+      }, 8000);
 
       this.bleapi.connect(this.deviceID, (success) => {
-        clearTimeout(pairTimeout);
-        loading.dismiss();
         if (success) {
-          this.updateCalibrationValues().then(() => {
+          this.updateCalibrationValues(() => {
+            clearTimeout(pairTimeout);
+            loading.dismiss();
+            this.updateLiveSample(); // Update once to display values
             console.log("[LiveView] Starting live update");
-            this.liveUpdateSubscription = Observable.interval(500).subscribe(() => {
-              this.bleapi.getData((rawSample: RawSample) => {
-                this.zone.run(() => {
-                  let rawTurbidityScaled = rawSample.turbidity/this.turbidityCalibration;
-                  let turbidityAfterFormula = -4352.9 + 24117.7*rawTurbidityScaled - 19763.9 *rawTurbidityScaled*rawTurbidityScaled;
-                  this.liveSample = new RawSample(
-                    rawSample.salinity/255*30,
-                    Math.round(rawTurbidityScaled<0.61?3000:rawTurbidityScaled>1?0:turbidityAfterFormula),
-                    rawSample.ph/this.phVDCalibration*3*3.5,
-                    Math.round(this.scale(rawSample.temperature, 0, 255, 0, 85)*10)/10,
-                  );
-                  this.liveSample.generateStrings();
-                });
-              });
-            });
+            this.startLiveSampleSubscription();
           });
         } else {
+          clearTimeout(pairTimeout);
+          loading.dismiss();
           return this.kickToPairing();
         }
       });
@@ -177,6 +166,9 @@ export class LiveviewPage {
   }
 
   kickToPairing(): Promise<any> {
+    if (LiveviewPage.liveUpdateSubscription !== undefined) {
+      LiveviewPage.liveUpdateSubscription.unsubscribe();
+    }
     let disconnectedToast = this.toastCtrl.create({
       message: 'Unable to connect to device! Please try again later.',
       duration: 3000,
@@ -194,5 +186,30 @@ export class LiveviewPage {
       this.ionViewWillEnter();
     });
     return calibrationModal.present();
+  }
+
+  startLiveSampleSubscription() {
+    if (LiveviewPage.liveUpdateSubscription !== undefined) {
+      LiveviewPage.liveUpdateSubscription.unsubscribe();
+    }
+    LiveviewPage.liveUpdateSubscription = Observable.interval(500).subscribe(() => {
+      this.updateLiveSample();
+    });
+  }
+
+  updateLiveSample() {
+    this.bleapi.getData((rawSample: RawSample) => {
+      this.zone.run(() => {
+        let rawTurbidityScaled = rawSample.turbidity/this.turbidityCalibration;
+        let turbidityAfterFormula = -4352.9 + 24117.7*rawTurbidityScaled - 19763.9 *rawTurbidityScaled*rawTurbidityScaled;
+        this.liveSample = new RawSample(
+          rawSample.salinity/255*30,
+          Math.round(rawTurbidityScaled<0.61?3000:rawTurbidityScaled>1?0:turbidityAfterFormula),
+          rawSample.ph/this.phVDCalibration*3*3.5,
+          Math.round(this.scale(rawSample.temperature, 0, 255, 0, 85)*10)/10,
+        );
+        this.liveSample.generateStrings();
+      });
+    }, () => this.kickToPairing());
   }
 }
