@@ -46,7 +46,25 @@ export class CalibrationMenuPage {
                 });
 
                 noDataToast.present();
+              }, error1 => {
+                console.log("[Calibration] Error calibrating: "+error1);
+                let noDataToast = this.toastCtrl.create({
+                  message: 'Calibration Failed',
+                  duration: 2000,
+                  position: 'bottom'
+                });
+
+                noDataToast.present();
               });
+            }, error1 => {
+              console.log("[Calibration] Error calibrating: "+error1);
+              let noDataToast = this.toastCtrl.create({
+                message: 'Calibration Failed',
+                duration: 2000,
+                position: 'bottom'
+              });
+
+              noDataToast.present();
             });
           }
         }
@@ -79,7 +97,25 @@ export class CalibrationMenuPage {
                 });
 
                 noDataToast.present();
+              }, error1 => {
+                console.log("[Calibration] Error calibrating: "+error1);
+                let noDataToast = this.toastCtrl.create({
+                  message: 'Calibration Failed',
+                  duration: 2000,
+                  position: 'bottom'
+                });
+
+                noDataToast.present();
               });
+            }, error1 => {
+              console.log("[Calibration] Error calibrating: "+error1);
+              let noDataToast = this.toastCtrl.create({
+                message: 'Calibration Failed',
+                duration: 2000,
+                position: 'bottom'
+              });
+
+              noDataToast.present();
             });
           }
         }
@@ -112,7 +148,25 @@ export class CalibrationMenuPage {
                 });
 
                 noDataToast.present();
+              }, error1 => {
+                console.log("[Calibration] Error calibrating: "+error1);
+                let noDataToast = this.toastCtrl.create({
+                  message: 'Calibration Failed',
+                  duration: 2000,
+                  position: 'bottom'
+                });
+
+                noDataToast.present();
               });
+            }, error1 => {
+              console.log("[Calibration] Error calibrating: "+error1);
+              let noDataToast = this.toastCtrl.create({
+                message: 'Calibration Failed',
+                duration: 2000,
+                position: 'bottom'
+              });
+
+              noDataToast.present();
             });
           }
         }
@@ -146,7 +200,25 @@ export class CalibrationMenuPage {
                 });
 
                 noDataToast.present();
+              }, error1 => {
+                console.log("[Calibration] Error calibrating: "+error1);
+                let noDataToast = this.toastCtrl.create({
+                  message: 'Calibration Failed',
+                  duration: 2000,
+                  position: 'bottom'
+                });
+
+                noDataToast.present();
               });
+            }, error1 => {
+              console.log("[Calibration] Error calibrating: "+error1);
+              let noDataToast = this.toastCtrl.create({
+                message: 'Calibration Failed',
+                duration: 2000,
+                position: 'bottom'
+              });
+
+              noDataToast.present();
             });
           }
         }
