@@ -56,26 +56,31 @@ export class WaterwandBleApiProvider {
       let addr = parseInt(datastring.slice(1, 3), 16);
 
       if (datastring.slice(0, 1) === "w") { // Incoming Sample
-        let foundCallback = WaterwandBleApiProvider.writeCBarr.find(obj => {return obj.addr===addr});
-        if (foundCallback === undefined) {
-          return;
+        let foundCallbacks = WaterwandBleApiProvider.writeCBarr.filter(obj => {return obj.addr===addr});
+        WaterwandBleApiProvider.writeCBarr = WaterwandBleApiProvider.writeCBarr.filter(obj => {return obj.addr!==addr});
+        if (foundCallbacks.length == 0) {
+          console.log("[BLE] Error Write: unable to find callback with addr: "+addr+" Datastr: "+datastring);
         }
-        foundCallback.cb()
+        foundCallbacks.forEach(cb => {
+          cb.cb();
+        });
 
       } else if (datastring.slice(0, 1) === "r") { // Incoming Sample
-        let foundCallback = WaterwandBleApiProvider.readCBarr.find(obj => {return obj.addr===addr});
-        if (foundCallback === undefined) {
-          console.log("[BLE] Error: unable to find callback with addr: "+addr+" Datastr: "+datastring);
-          return;
+        let foundCallbacks = WaterwandBleApiProvider.readCBarr.filter(obj => {return obj.addr===addr});
+        WaterwandBleApiProvider.readCBarr = WaterwandBleApiProvider.readCBarr.filter(obj => {return obj.addr!==addr});
+        if (foundCallbacks.length == 0) {
+          console.log("[BLE] Error Read: unable to find callback with addr: "+addr+" Datastr: "+datastring);
         }
-        foundCallback.cb(
-          new Float32Array(new Uint8Array([
-            parseInt(datastring.slice(3, 5), 16),
-            parseInt(datastring.slice(5, 7), 16),
-            parseInt(datastring.slice(7, 9), 16),
-            parseInt(datastring.slice(9, 11), 16)
-          ]).buffer)[0]
-        );
+        foundCallbacks.forEach(cb => {
+          cb.cb(
+            new Float32Array(new Uint8Array([
+              parseInt(datastring.slice(3, 5), 16),
+              parseInt(datastring.slice(5, 7), 16),
+              parseInt(datastring.slice(7, 9), 16),
+              parseInt(datastring.slice(9, 11), 16)
+            ]).buffer)[0]
+          );
+        });
       } else {
         console.log('[BLE] Unknown data type: ' + datastring);
       }
@@ -84,77 +89,57 @@ export class WaterwandBleApiProvider {
   }
 
   private write(value: ArrayBuffer): Promise<any> {
+    if (!this.isConnected()) {
+      return Promise.reject("Device disconnected, unable to write");
+    }
     return this.ble.write(WaterwandBleApiProvider.deviceId, this.serviceUUID, this.txCharacteristic, value);
   }
 
-  readFromEEPROM(addr: number, callback: (value: number) => void) {
-    WaterwandBleApiProvider.readCBarr.push({addr: addr, cb: callback});
+  readFromEEPROM(addr: number, callback: (value: number) => void, reject: (error) => void) {
+    WaterwandBleApiProvider.readCBarr.push({addr: addr, cb: callback}); // TODO: Reject after timeout
 
-    var addrBytes = new Uint8Array(1);
-    addrBytes[0] = addr;
+    let addressBytes = new Uint8Array(1);
+    addressBytes[0] = addr;
 
-    var str = "r" + this.toHexString(new Uint8Array(addrBytes.buffer));
-    var code=new Array(str.length);
+    let str = "r" + WaterwandBleApiProvider.toHexString(new Uint8Array(addressBytes.buffer));
+    let code = new Array(str.length);
     for(var i=0;i<str.length;i++){
       code[i]=str.charCodeAt(i);
     }
 
-    this.write(new Uint8Array(code).buffer);
+    this.write(new Uint8Array(code).buffer).catch(e=>reject(e));
   }
 
-  writeToEEPROM(addr: number, value: number, callback: () => void) {
-    WaterwandBleApiProvider.writeCBarr.push({addr: addr, cb: callback});
+  writeToEEPROM(addr: number, value: number, callback: () => void, reject: (error) => void) {
+    WaterwandBleApiProvider.writeCBarr.push({addr: addr, cb: callback}); // TODO: Reject after timeout
 
-    var addrBytes = new Uint8Array(1);
-    addrBytes[0] = addr;
+    var addressBytes = new Uint8Array(1);
+    addressBytes[0] = addr;
 
     var valueBytes = new Float32Array(1);
     valueBytes[0] = value;
 
-    var str = "w" + this.toHexString(new Uint8Array(addrBytes.buffer)) + this.toHexString(new Uint8Array(valueBytes.buffer));
-    var code=new Array(str.length);
-    for(var i=0;i<str.length;i++){
+    let str = "w" + WaterwandBleApiProvider.toHexString(new Uint8Array(addressBytes.buffer)) + WaterwandBleApiProvider.toHexString(new Uint8Array(valueBytes.buffer));
+    let code = new Array(str.length);
+    for(let i=0; i<str.length; i++){
       code[i]=str.charCodeAt(i);
     }
 
-    this.write(new Uint8Array(code).buffer);
+    this.write(new Uint8Array(code).buffer).catch(e=>reject(e));
   }
-
-  concatTypedArrays(a, b) { // a, b TypedArray of same type
-    var c = new (a.constructor)(a.length + b.length);
-    c.set(a, 0);
-    c.set(b, a.length);
-    return c;
-  }
-
-  toHexString(byteArray) {
+  static toHexString(byteArray) {
     return Array.prototype.map.call(byteArray, function(byte) {
       return ('0' + (byte & 0xFF).toString(16)).slice(-2);
     }).join('');
   }
-
-  toByteArray(hexString) {
-    var result = [];
-    while (hexString.length >= 2) {
-      result.push(parseInt(hexString.substring(0, 2), 16));
-      hexString = hexString.substring(2, hexString.length);
-    }
-    return result;
-  }
-
-  appendBuffer(buffer1, buffer2) {
-    var tmp = new Uint8Array(buffer1.byteLength + buffer2.byteLength);
-    tmp.set(new Uint8Array(buffer1), 0);
-    tmp.set(new Uint8Array(buffer2), buffer1.byteLength);
-    return tmp.buffer;
-  };
-
-  getData(callback: (sample: RawSample) => void) {
+  getData(resolve: (sample: RawSample) => void, reject: (error: string) => void) { // TODO: Add catch for rejected attempts to get data
     let input = new ArrayBuffer(1);
     let byteView = new Uint8Array(input);
     byteView[0] = 115;
-    WaterwandBleApiProvider.sampleCBarr.push(callback);
-    this.write(input);
+    WaterwandBleApiProvider.sampleCBarr.push(resolve);
+    this.write(input).catch(e=> {
+      reject("[BLE] Error getting data!");
+    });
   }
 
   disconnect() {
